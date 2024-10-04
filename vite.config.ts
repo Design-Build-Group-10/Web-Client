@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
           target: mode === 'production'
             ? 'http://backend-server'
             : mode === 'development'
-              ? 'http://82.156.184.46'
+              ? 'http://62.234.168.154'
               : mode === 'mock'
                 ? 'http://127.0.0.1:4523/m1/5147033-4811066-default'
                 : 'http://127.0.0.1:8000',
@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
           // rewrite: path => path.replace(/^\/api/, ''), // mock 时打开， dev 时注释
         },
         '/media': {
-          target: 'http://82.156.184.46',
+          target: 'http://62.234.168.154',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/media/, '/media'),
         },

@@ -6,6 +6,9 @@ import { useAuthStore } from '@/stores/auth'
 import { HomeOutlined, IdcardOutlined } from '@ant-design/icons-vue'
 import { Button as AButton, Card, Flex, Form, FormItem, Input, InputPassword, Layout, message } from 'ant-design-vue'
 import { nextTick, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const loading = ref(false)
 const faceLoading = ref(false)
@@ -59,6 +62,11 @@ async function login(username: string, password: string) {
     if (accessToken) {
       const res = await getUserInfoApi()
       useAuthStore().login(accessToken, refreshToken, res.data)
+      message.success('登录成功！')
+      await router.push('/dashboard')
+    }
+    else {
+      message.error('登录失败')
     }
   }
   catch (_error) {
@@ -69,13 +77,12 @@ async function login(username: string, password: string) {
   }
 }
 
-function onSubmit() {
+async function onSubmit() {
   if (!form.value.username || !form.value.password) {
     message.error('请填写完整的用户名和密码')
     return
   }
-  login(form.value.username, form.value.password)
-  message.success('登录成功！')
+  await login(form.value.username, form.value.password)
 }
 
 const capturedImage = ref<string | null>(null)
