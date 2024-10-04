@@ -12,7 +12,7 @@ import instance from './axios'
 export async function get<T = any>(url: string, params?: any, auth?: boolean) {
   return instance.get<T>(url, {
     params,
-    headers: auth ? { Authorization: `Bearer ${localStorage.getItem('token')}` } : {},
+    headers: auth ? { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } : {},
   })
 }
 
@@ -34,7 +34,7 @@ export async function post<T = any>(
   const headers = {
     'Content-Type': 'application/json',
     ...customHeaders,
-    ...(auth && { Authorization: `Bearer ${localStorage.getItem('token')}` }),
+    ...(auth && { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }),
   }
 
   return instance.post<T>(url, data, { headers })
@@ -49,7 +49,7 @@ export async function post<T = any>(
  */
 export async function del<T = any>(url: string, auth?: boolean) {
   return instance.delete<T>(url, {
-    headers: auth ? { Authorization: `Bearer ${localStorage.getItem('token')}` } : {},
+    headers: auth ? { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } : {},
   })
 }
 
@@ -72,7 +72,7 @@ export async function put<T = any>(
     headers: {
       'Content-Type': 'application/json',
       ...customHeaders,
-      ...(auth && { Authorization: `Bearer ${localStorage.getItem('token')}` }),
+      ...(auth && { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }),
     },
   })
 }

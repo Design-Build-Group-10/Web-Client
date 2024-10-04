@@ -3,19 +3,21 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  const accessToken = ref<string | null>(null)
-  const refreshToken = ref<string | null>(null)
   const user = ref<User | null>(null)
 
   // 计算属性，检查用户是否已通过 accessToken 验证
-  const isAuthenticated = computed(() => !!accessToken.value)
+  const isAuthenticated = computed(() => !!localStorage.getItem('accessToken'))
+
+  function setToken(newAccessToken: string, newRefreshToken: string) {
+    localStorage.setItem('accessToken', newAccessToken)
+    localStorage.setItem('refreshToken', newRefreshToken)
+  }
 
   /**
    * 登录函数，接收 accessToken 和 refreshToken 以及用户信息
    */
   function login(newAccessToken: string, newRefreshToken: string, newUser: User) {
-    accessToken.value = newAccessToken
-    refreshToken.value = newRefreshToken
+    setToken(newAccessToken, newRefreshToken)
     user.value = newUser
   }
 
@@ -23,8 +25,8 @@ export const useAuthStore = defineStore('auth', () => {
    * 登出函数，清空所有认证相关信息
    */
   function logout() {
-    accessToken.value = null
-    refreshToken.value = null
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
     user.value = null
   }
 
@@ -33,12 +35,11 @@ export const useAuthStore = defineStore('auth', () => {
    * 通常在使用 refreshToken 刷新时调用
    */
   function updateAccessToken(newAccessToken: string) {
-    accessToken.value = newAccessToken
+    localStorage.setItem('accessToken', newAccessToken)
   }
 
   return {
-    accessToken,
-    refreshToken,
+    setToken,
     user,
     isAuthenticated,
     login,

@@ -184,6 +184,10 @@ function retryFaceRecognition() {
   loginSuccess.value = false
   openCamera()
 }
+
+function navigateToRegister() {
+  router.push('/register')
+}
 </script>
 
 <template>
@@ -215,6 +219,11 @@ function retryFaceRecognition() {
               登录
             </AButton>
           </FormItem>
+          <p class="text-center mt-4">
+            没有账号？<AButton type="link" @click="navigateToRegister">
+              立即注册
+            </AButton>
+          </p>
         </Form>
       </template>
       <template v-else-if="key === 'tab2'">
