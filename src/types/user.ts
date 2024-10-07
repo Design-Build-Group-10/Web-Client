@@ -5,4 +5,5 @@ export interface User {
   email: string
   phone: string
   face: string
+  role: 'user' | 'admin'
 }

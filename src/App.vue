@@ -1,44 +1,90 @@
 <script setup lang="ts">
+import SideBar from '@/components/SideBar.vue'
 import { useConfigStore } from '@/stores/config'
-import { BulbOutlined } from '@ant-design/icons-vue'
+import userTheme from '@/theme/theme.json'
+import { BulbOutlined, GlobalOutlined, SettingOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, FloatButton, Layout, theme } from 'ant-design-vue'
 import { Moon } from 'lucide-vue-next'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
-const { Content } = Layout
+const { t, locale } = useI18n()
+
+function changeLanguage() {
+  locale.value = locale.value === 'en' ? 'zh' : 'en'
+  localStorage.setItem('locale', locale.value)
+  window.location.reload()
+}
+
+const { Header, Sider, Content } = Layout
 
 function toggleTheme() {
   useConfigStore().toggleTheme()
 }
+
+const route = useRoute()
+
+const showHeader = computed(() => {
+  return route.meta.header !== false
+})
+
+const showNavBar = computed(() => {
+  return route.meta.navbar !== false
+})
 </script>
 
 <template>
   <ConfigProvider
     :theme="{
+      ...userTheme,
       algorithm: useConfigStore().isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
     }"
   >
     <Layout class="h-full overflow-hidden">
-      <!--      <Header class="header flex items-center"> -->
-      <!--        <div class="logo" /> -->
-      <!--        <span class="text-white font-bold text-2xl">智慧篮球管理系统</span> -->
-      <!--      </Header> -->
+      <Header v-if="showHeader" class="header flex items-center">
+        <div class="logo" />
+        <span class="text-white font-bold text-2xl">FacePerks</span>
+      </Header>
       <Layout>
-        <!--        <Sider v-if="showNavBar" width="256" theme="light"> -->
-        <!--          <SideBar /> -->
-        <!--        </Sider> -->
-        <Content class="overflow-x-hidden overflow-y-auto">
+        <Sider v-if="showNavBar" width="256" theme="light">
+          <SideBar />
+        </Sider>
+        <Content class="overflow-x-hidden overflow-y-auto p-3">
           <RouterView />
         </Content>
       </Layout>
     </Layout>
-    <FloatButton tooltip="切换主题" @click="toggleTheme">
+    <FloatButton.Group trigger="hover">
       <template #icon>
-        <BulbOutlined v-if="useConfigStore().isDarkMode" class="size-5" />
-        <Moon v-else class="size-5" />
+        <SettingOutlined class="size-5" />
       </template>
-    </FloatButton>
+      <FloatButton :tooltip="t('切换主题')" @click="toggleTheme">
+        <template #icon>
+          <BulbOutlined v-if="useConfigStore().isDarkMode" class="size-5" />
+          <Moon v-else class="size-5" />
+        </template>
+      </FloatButton>
+
+      <FloatButton :tooltip="t('切换语言')" @click="changeLanguage()">
+        <template #icon>
+          <GlobalOutlined class="size-5" />
+        </template>
+      </FloatButton>
+    </FloatButton.Group>
   </ConfigProvider>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
+.header {
+  padding-inline: 0;
+  height: 3.4em;
+  border-bottom: .3em solid @colorPrimary;
+
+  .logo {
+    height: 60%;
+    width: 5em;
+    background: url("@/assets/logo.svg") no-repeat center center / contain;
+  }
+}
 </style>

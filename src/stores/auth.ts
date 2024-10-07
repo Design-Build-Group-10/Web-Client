@@ -13,12 +13,9 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.setItem('refreshToken', newRefreshToken)
   }
 
-  /**
-   * 登录函数，接收 accessToken 和 refreshToken 以及用户信息
-   */
-  function login(newAccessToken: string, newRefreshToken: string, newUser: User) {
-    setToken(newAccessToken, newRefreshToken)
+  function setUser(newUser: User) {
     user.value = newUser
+    user.value.role = newUser.role ?? 'user'
   }
 
   /**
@@ -40,9 +37,9 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     setToken,
+    setUser,
     user,
     isAuthenticated,
-    login,
     logout,
     updateAccessToken,
   }

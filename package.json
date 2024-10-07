@@ -13,12 +13,15 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@formkit/auto-animate": "^0.8.2",
     "ant-design-vue": "4.x",
     "axios": "^1.7.7",
     "lucide-vue-next": "^0.447.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^4.0.2",
     "vue": "^3.4.29",
+    "vue-advanced-cropper": "^2.8.9",
+    "vue-i18n": "^10.0.4",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
@@ -32,7 +35,8 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-plugin-vue": "^9.23.0",
-    "npm-run-all2": "^6.2.0",
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13",
     "typescript": "~5.4.0",
