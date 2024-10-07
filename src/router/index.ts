@@ -61,12 +61,12 @@ const router = createRouter({
         },
         {
           path: '/history',
-          component: () => HistoryPage,
+          component: HistoryPage,
           meta: { requiresAuth: true, role: 'user' },
         },
         {
           path: '/messages',
-          component: () => MessagePage,
+          component: MessagePage,
           meta: { requiresAuth: true, role: 'user' },
         },
         {
@@ -86,27 +86,27 @@ const router = createRouter({
             },
             {
               path: '/product-management',
-              component: () => ProductManagementPage,
+              component: ProductManagementPage,
               meta: { requiresAuth: true, role: 'admin' },
             },
             {
               path: '/data-stats',
-              component: () => DataStatsPage,
+              component: DataStatsPage,
               meta: { requiresAuth: true, role: 'admin' },
             },
             {
               path: '/message-push',
-              component: () => MessagePushPage,
+              component: MessagePushPage,
               meta: { requiresAuth: true, role: 'admin' },
             },
             {
               path: '/system-logs',
-              component: () => SystemLogsPage,
+              component: SystemLogsPage,
               meta: { requiresAuth: true, role: 'admin' },
             },
             {
               path: '/permissions',
-              component: () => PermissionsPage,
+              component: PermissionsPage,
               meta: { requiresAuth: true, role: 'admin' },
             },
           ],

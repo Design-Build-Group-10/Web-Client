@@ -105,6 +105,7 @@ async function onSubmit() {
     const { accessToken, refreshToken, user } = response.data
     if (accessToken && refreshToken) {
       useAuthStore().setToken(accessToken, refreshToken)
+      message.success(t('注册成功'))
     }
     else if (!accessToken && !refreshToken && user) {
       message.success(t('已有账号，请直接登录'))
