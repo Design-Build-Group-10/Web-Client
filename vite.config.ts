@@ -33,6 +33,7 @@ export default defineConfig(() => {
         '/api': {
           target: 'http://62.234.168.154',
           changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, '/api'),
         },
         '/media': {
           target: 'http://62.234.168.154',
