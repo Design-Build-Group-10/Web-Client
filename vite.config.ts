@@ -8,7 +8,7 @@ const { defaultAlgorithm, defaultSeed } = theme
 const mapToken = defaultAlgorithm({ ...defaultSeed })
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   return {
     plugins: [
       vue(),
@@ -31,18 +31,8 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: mode === 'production'
-            ? 'http://backend-server'
-            : mode === 'development'
-              ? 'http://62.234.168.154'
-              : mode === 'mock'
-                ? 'http://127.0.0.1:4523/m1/5147033-4811066-default'
-                : 'http://127.0.0.1:8000',
+          target: 'http://62.234.168.154',
           changeOrigin: true,
-          // rewrite: path => path.replace(/^\/api/, ''), // mock 时打开， dev 时注释
-          // bypass(req, res, options) {
-          //   console.log(req, res, options)
-          // },
         },
         '/media': {
           target: 'http://62.234.168.154',
@@ -50,7 +40,7 @@ export default defineConfig(({ mode }) => {
           rewrite: path => path.replace(/^\/media/, '/media'),
         },
         '/admin': {
-          target: 'https://62.234.168.154',
+          target: 'http://62.234.168.154',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/admin/, '/admin'),
         },
