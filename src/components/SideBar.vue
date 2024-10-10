@@ -11,6 +11,7 @@ import {
   KeyOutlined,
   LockOutlined,
   MessageOutlined,
+  RobotOutlined,
   SettingOutlined,
   ShopOutlined,
   UserOutlined,
@@ -71,6 +72,7 @@ const adminItems: ItemType[] = reactive([
   getItem(t('数据统计'), '/data-stats', () => h(BarChartOutlined)),
   getItem(t('消息推送'), '/message-push', () => h(MessageOutlined)),
   getItem(t('系统日志'), '/system-logs', () => h(HistoryOutlined)),
+  getItem(t('机器人管理'), '/robot-management', () => h(RobotOutlined)),
   getItem(t('设置'), '/', () => h(SettingOutlined), [
     getItem(t('权限管理'), '/permissions', () => h(KeyOutlined)),
     getItem(t('安全退出'), '/exit', () => h(LockOutlined)),

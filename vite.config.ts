@@ -39,6 +39,8 @@ export default defineConfig(({ mode }) => {
                 ? 'http://127.0.0.1:4523/m1/5147033-4811066-default'
                 : 'http://127.0.0.1:8000',
           changeOrigin: true,
+          secure: false,
+          ws: true,
           // rewrite: path => path.replace(/^\/api/, ''), // mock 时打开， dev 时注释
           // bypass(req, res, options) {
           //   console.log(req, res, options)

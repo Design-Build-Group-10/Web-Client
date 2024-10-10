@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   function setUser(newUser: User) {
     user.value = newUser
-    user.value.role = newUser.role ?? 'user'
+    user.value.role = newUser.role ?? 'admin'
   }
 
   /**

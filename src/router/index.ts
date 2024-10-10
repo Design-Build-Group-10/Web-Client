@@ -3,6 +3,7 @@ import MessagePushPage from '@/pages/admin/MessagePushPage.vue'
 import PermissionsPage from '@/pages/admin/PermissionsPage.vue'
 import ProductManagementPage from '@/pages/admin/ProductManagementPage.vue'
 import RewardSystemPage from '@/pages/admin/RewardSystemPage.vue'
+import RobotViewer from '@/pages/admin/Robot/RobotViewer.vue'
 import SystemLogsPage from '@/pages/admin/SystemLogsPage.vue'
 import UserManagementPage from '@/pages/admin/UserManagementPage.vue'
 import DashBoard from '@/pages/DashBoard.vue'
@@ -97,6 +98,11 @@ const router = createRouter({
             {
               path: '/message-push',
               component: MessagePushPage,
+              meta: { requiresAuth: true, role: 'admin' },
+            },
+            {
+              path: '/robot-management',
+              component: RobotViewer,
               meta: { requiresAuth: true, role: 'admin' },
             },
             {
