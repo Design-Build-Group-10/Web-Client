@@ -5,6 +5,7 @@ export const useConfigStore = defineStore('config', () => {
   const theme = ref<'dark' | 'light'>('light')
   const isManualThemeChange = ref<boolean>(false)
   const isDarkMode = computed(() => theme.value === 'dark')
+  const collapsed = ref(true)
 
   function setTheme(mode: 'dark' | 'light') {
     theme.value = mode === 'dark' ? 'dark' : 'light'
@@ -20,6 +21,7 @@ export const useConfigStore = defineStore('config', () => {
   }
 
   return {
+    collapsed,
     theme,
     isManualThemeChange,
     isDarkMode,

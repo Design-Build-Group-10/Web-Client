@@ -47,7 +47,7 @@ const showNavBar = computed(() => {
         <span class="text-white font-bold text-2xl">FacePerks</span>
       </Header>
       <Layout>
-        <Sider v-if="showNavBar" width="256" theme="light">
+        <Sider v-if="showNavBar" v-model:collapsed="useConfigStore().collapsed" width="256" theme="light" collapsible>
           <SideBar />
         </Sider>
         <Content class="overflow-x-hidden overflow-y-auto p-3">

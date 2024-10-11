@@ -67,7 +67,7 @@ async function login(username: string, password: string) {
       const res = await getUserInfoApi()
       useAuthStore().setUser(res.data)
       message.success(t('登录成功！'))
-      await router.push('/dashboard')
+      await router.push('/home')
     }
     else {
       message.error(t('登录失败'))
@@ -148,9 +148,9 @@ async function onFaceLogin() {
       useAuthStore().setToken(accessToken, refreshToken)
       const res = await getUserInfoApi()
       useAuthStore().setUser(res.data)
+      message.success(t('人脸登录成功！'))
+      loginSuccess.value = true
     }
-    message.success(t('人脸登录成功！'))
-    loginSuccess.value = true
   }
   catch (_error) {
     message.error(t('人脸登录失败'))
@@ -186,7 +186,7 @@ function reset() {
 }
 
 function enterSystem() {
-  router.push('/dashboard')
+  router.push('/home')
 }
 
 function retryFaceRecognition() {

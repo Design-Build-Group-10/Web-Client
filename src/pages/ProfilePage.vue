@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getUserInfoApi, putUserAvatarApi, putUserInfoApi } from '@/api/user/profile'
 import { useAuthStore } from '@/stores/auth'
-import { UploadOutlined } from '@ant-design/icons-vue'
+import { UploadOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { Button as AButton, Avatar, Card, Flex, message, Modal } from 'ant-design-vue'
 import { onMounted, ref } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
@@ -184,7 +184,11 @@ onMounted(async () => {
 
       <Flex vertical gap="small" class="items-center">
         <!-- 显示当前头像 -->
-        <Avatar :size="100" :src="userInfo.avatar" />
+        <Avatar :size="100" :src="userInfo.avatar">
+          <template v-if="!useAuthStore().user?.avatar" #icon>
+            <UserOutlined />
+          </template>
+        </Avatar>
 
         <!-- 上传头像按钮 -->
         <AButton class="flex justify-center items-center text-xs" @click="file?.click()">

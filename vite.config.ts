@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/api': {
           target: mode === 'production'
-            ? 'http://backend-server'
+            ? 'http://backend:8000'
             : mode === 'development'
               ? 'http://62.234.168.154'
               : mode === 'mock'
@@ -40,8 +40,8 @@ export default defineConfig(({ mode }) => {
                 : 'http://127.0.0.1:8000',
           changeOrigin: true,
           secure: false,
-          ws: true,
           // rewrite: path => path.replace(/^\/api/, ''), // mock 时打开， dev 时注释
+          ws: true,
           // bypass(req, res, options) {
           //   console.log(req, res, options)
           // },

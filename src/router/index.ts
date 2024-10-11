@@ -1,15 +1,17 @@
 import DataStatsPage from '@/pages/admin/DataStatsPage.vue'
 import MessagePushPage from '@/pages/admin/MessagePushPage.vue'
-import PermissionsPage from '@/pages/admin/PermissionsPage.vue'
 import ProductManagementPage from '@/pages/admin/ProductManagementPage.vue'
 import RewardSystemPage from '@/pages/admin/RewardSystemPage.vue'
 import RobotViewer from '@/pages/admin/Robot/RobotViewer.vue'
 import SystemLogsPage from '@/pages/admin/SystemLogsPage.vue'
 import UserManagementPage from '@/pages/admin/UserManagementPage.vue'
+import CartPage from '@/pages/CartPage.vue'
 import DashBoard from '@/pages/DashBoard.vue'
+import HomePage from '@/pages/HomePage.vue'
 import LoginPage from '@/pages/LoginPage.vue'
 import ProfilePage from '@/pages/ProfilePage.vue'
 import RegisterPage from '@/pages/RegisterPage.vue'
+import SettingPage from '@/pages/SettingPage.vue'
 import HistoryPage from '@/pages/user/HistoryPage.vue'
 import MessagePage from '@/pages/user/MessagePage.vue'
 import ProductsPage from '@/pages/user/ProductsPage.vue'
@@ -36,8 +38,18 @@ const router = createRouter({
           meta: { requiresAuth: false, header: false, navbar: false },
         },
         {
-          path: '/dashboard',
-          component: DashBoard,
+          path: '/home',
+          component: HomePage,
+          meta: { requiresAuth: true },
+        },
+        {
+          path: '/cart',
+          component: CartPage,
+          meta: { requiresAuth: true },
+        },
+        {
+          path: '/setting',
+          component: SettingPage,
           meta: { requiresAuth: true },
         },
         {
@@ -51,7 +63,7 @@ const router = createRouter({
           meta: { requiresAuth: true, role: 'user' },
         },
         {
-          path: '/products',
+          path: '/productList',
           component: ProductsPage,
           meta: { requiresAuth: true, role: 'user' },
         },
@@ -70,52 +82,46 @@ const router = createRouter({
           component: MessagePage,
           meta: { requiresAuth: true, role: 'user' },
         },
+
         {
-          path: '/admin',
-          redirect: '/user-management',
+          path: '/dashboard',
+          component: DashBoard,
           meta: { requiresAuth: true, role: 'admin' },
-          children: [
-            {
-              path: '/user-management',
-              component: UserManagementPage,
-              meta: { requiresAuth: true, role: 'admin' },
-            },
-            {
-              path: '/reward-system',
-              component: RewardSystemPage,
-              meta: { requiresAuth: true, role: 'admin' },
-            },
-            {
-              path: '/product-management',
-              component: ProductManagementPage,
-              meta: { requiresAuth: true, role: 'admin' },
-            },
-            {
-              path: '/data-stats',
-              component: DataStatsPage,
-              meta: { requiresAuth: true, role: 'admin' },
-            },
-            {
-              path: '/message-push',
-              component: MessagePushPage,
-              meta: { requiresAuth: true, role: 'admin' },
-            },
-            {
-              path: '/robot-management',
-              component: RobotViewer,
-              meta: { requiresAuth: true, role: 'admin' },
-            },
-            {
-              path: '/system-logs',
-              component: SystemLogsPage,
-              meta: { requiresAuth: true, role: 'admin' },
-            },
-            {
-              path: '/permissions',
-              component: PermissionsPage,
-              meta: { requiresAuth: true, role: 'admin' },
-            },
-          ],
+        },
+        {
+          path: '/user-management',
+          component: UserManagementPage,
+          meta: { requiresAuth: true, role: 'admin' },
+        },
+        {
+          path: '/reward-system',
+          component: RewardSystemPage,
+          meta: { requiresAuth: true, role: 'admin' },
+        },
+        {
+          path: '/product-management',
+          component: ProductManagementPage,
+          meta: { requiresAuth: true, role: 'admin' },
+        },
+        {
+          path: '/data-stats',
+          component: DataStatsPage,
+          meta: { requiresAuth: true, role: 'admin' },
+        },
+        {
+          path: '/message-push',
+          component: MessagePushPage,
+          meta: { requiresAuth: true, role: 'admin' },
+        },
+        {
+          path: '/robot-management',
+          component: RobotViewer,
+          meta: { requiresAuth: true, role: 'admin' },
+        },
+        {
+          path: '/system-logs',
+          component: SystemLogsPage,
+          meta: { requiresAuth: true, role: 'admin' },
         },
       ],
     },

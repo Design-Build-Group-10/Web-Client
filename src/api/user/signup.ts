@@ -11,7 +11,7 @@ export async function signupApi(username: string, password: string, face: Blob, 
   if (phone) {
     formData.append('phone', phone)
   }
-  const response = await post('/user/signup', formData, false, {
+  const response = await post('/user/signup/', formData, false, {
     'Content-Type': 'multipart/form-data',
   })
   return response.data
@@ -20,7 +20,7 @@ export async function signupApi(username: string, password: string, face: Blob, 
 export async function postUserFaceApi(face: Blob) {
   const formData = new FormData()
   formData.append('face', face)
-  const response = await put('/user/face', formData, true, {
+  const response = await put('/user/face/', formData, true, {
     'Content-Type': 'multipart/form-data',
   })
   return response.data

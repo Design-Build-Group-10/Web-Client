@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  Permissions
+  <div>
+    SettingPage
+  </div>
 </template>
 
 <style scoped lang="less">
