@@ -81,7 +81,7 @@ async function handleQuantityChange(product_id: string, quantity: number) {
       await changeCartApi(product_id, quantity)
       const product = productList.value.find(item => item.id === product_id)
       if (product) {
-        product.total_price = product.price * quantity
+        product.total_price = String(Number(product.price) * quantity)
       }
     }
     catch (_error) {

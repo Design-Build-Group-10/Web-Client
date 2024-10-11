@@ -90,6 +90,7 @@ async function getRobotList() {
 
 function openEvent() {
   isConnected.value = true // 成功连接后设置连接状态
+  message.success(t('连接机器人成功'))
 }
 
 function closeEvent() {
@@ -103,6 +104,8 @@ function timeoutEvent() {
 }
 
 function errorEvent() {
+  isConnected.value = false
+  message.error(t('连接机器人失败'))
 }
 
 const loading = ref(false)
@@ -133,7 +136,6 @@ async function connectRobot(robot?: Robot) {
     connecting.value = true
     await delay(1000)
     createConnection(robot.serial_number, openEvent, closeEvent, sendEvent, timeoutEvent, errorEvent)
-    message.success(t('连接机器人成功'))
   }
   catch (_error: any) {
     message.error(t('连接机器人失败'))

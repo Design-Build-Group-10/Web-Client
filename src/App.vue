@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import SideBar from '@/components/SideBar.vue'
 import { useConfigStore } from '@/stores/config'
-import userTheme from '@/theme/theme.json'
 import { BulbOutlined, GlobalOutlined, SettingOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, FloatButton, Layout, theme } from 'ant-design-vue'
 import { Moon } from 'lucide-vue-next'
@@ -37,12 +36,17 @@ const showNavBar = computed(() => {
 <template>
   <ConfigProvider
     :theme="{
-      ...userTheme,
+      token: {
+        colorPrimary: useConfigStore().colorPrimary,
+        fontSize: useConfigStore().fontSize,
+      },
       algorithm: useConfigStore().isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
     }"
   >
     <Layout class="h-full overflow-hidden">
-      <Header v-if="showHeader" class="header flex items-center">
+      <Header
+        v-if="showHeader" class="header flex items-center" :style="`border-color: ${useConfigStore().colorPrimary}; border-bottom-width: 0.3em;`"
+      >
         <div class="logo" />
         <span class="text-white font-bold text-2xl">FacePerks</span>
       </Header>
@@ -79,7 +83,6 @@ const showNavBar = computed(() => {
 .header {
   padding-inline: 0;
   height: 3.4em;
-  border-bottom: .3em solid @colorPrimary;
 
   .logo {
     height: 60%;

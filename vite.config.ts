@@ -2,10 +2,11 @@ import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import { theme } from 'ant-design-vue'
 import { defineConfig } from 'vite'
+import { token } from './src/theme/theme.json'
 
 const { defaultAlgorithm, defaultSeed } = theme
 
-const mapToken = defaultAlgorithm({ ...defaultSeed })
+const mapToken = defaultAlgorithm({ ...defaultSeed, ...token })
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {

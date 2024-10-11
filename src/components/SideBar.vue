@@ -58,8 +58,8 @@ const userItems: ItemType[] = reactive([
   // getItem(t('购物任务'), '/tasks', () => h(BarChartOutlined)),
   getItem(t('浏览历史'), '/history', () => h(HistoryOutlined)),
   getItem(t('消息中心'), '/messages', () => h(MessageOutlined)),
-  getItem(t('设置'), '/setting', () => h(SettingOutlined)),
   getItem(t('个人信息'), '/profile', () => h(IdcardOutlined)),
+  getItem(t('设置'), '/setting', () => h(SettingOutlined)),
   getItem(t('安全退出'), '/exit', () => h(LogoutOutlined)),
 ])
 
@@ -78,8 +78,8 @@ const adminItems: ItemType[] = reactive([
     getItem(t('商品管理'), '/product-management', () => h(TagsOutlined)),
   ]),
 
-  getItem(t('设置'), '/setting', () => h(SettingOutlined)),
   getItem(t('个人信息'), '/profile', () => h(IdcardOutlined)),
+  getItem(t('设置'), '/setting', () => h(SettingOutlined)),
   getItem(t('安全退出'), '/exit', () => h(LogoutOutlined)),
 ])
 

@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { getUserInfoApi, putUserAvatarApi, putUserInfoApi } from '@/api/user/profile'
 import { useAuthStore } from '@/stores/auth'
-import { UploadOutlined, UserOutlined } from '@ant-design/icons-vue'
-import { Button as AButton, Avatar, Card, Flex, message, Modal } from 'ant-design-vue'
+import {
+  CreditCardOutlined,
+  InboxOutlined,
+  MessageOutlined,
+  RightOutlined,
+  SafetyOutlined,
+  UploadOutlined,
+  UserOutlined,
+} from '@ant-design/icons-vue'
+import { Button as AButton, Avatar, Badge, Card, Flex, message, Modal } from 'ant-design-vue'
 import { onMounted, ref } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import { useI18n } from 'vue-i18n'
@@ -121,111 +129,144 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Card class="max-w-2xl mx-auto p-3 rounded-lg shadow-md" :title="t('修改用户信息')">
-    <Flex gap="middle" class="w-full justify-between">
-      <div class="w-full">
-        <!-- 用户名编辑 -->
-        <a-typography class="flex gap-3">
-          <span>{{ t('用户名：') }}</span>
-          <a-typography-paragraph
-            v-model:content="userInfo.username"
-            :editable="{
-              onEnd: (value: string) => handleEditEnd('username', value),
-              onCancel: () => handleEditCancel('username'),
-              tooltip: true,
-            }"
-            :maxlength="20"
-            class="flex-1"
-          >
-            <template #editableTooltip>
-              {{ t('修改用户名') }}
+  <Flex vertical gap="middle" class="max-w-2xl mx-auto">
+    <Card class="p-3 rounded-lg shadow-md" :title="t('修改用户信息')">
+      <Flex gap="middle" class="w-full justify-between">
+        <div class="w-full">
+          <!-- 用户名编辑 -->
+          <a-typography class="flex gap-3">
+            <span>{{ t('用户名：') }}</span>
+            <a-typography-paragraph
+              v-model:content="userInfo.username"
+              :editable="{
+                onEnd: (value: string) => handleEditEnd('username', value),
+                onCancel: () => handleEditCancel('username'),
+                tooltip: true,
+              }"
+              :maxlength="20"
+              class="flex-1"
+            >
+              <template #editableTooltip>
+                {{ t('修改用户名') }}
+              </template>
+            </a-typography-paragraph>
+          </a-typography>
+
+          <!-- 邮箱编辑 -->
+          <a-typography class="flex gap-3">
+            <span>{{ t('邮箱：') }} </span>
+            <a-typography-paragraph
+              v-model:content="userInfo.email"
+              :editable="{
+                onEnd: (value: string) => handleEditEnd('email', value),
+                onCancel: () => handleEditCancel('email'),
+                tooltip: true,
+              }"
+              :maxlength="50"
+              class="flex-1"
+            >
+              <template #editableTooltip>
+                {{ t('修改邮箱') }}
+              </template>
+            </a-typography-paragraph>
+          </a-typography>
+
+          <!-- 电话编辑 -->
+          <a-typography class="flex gap-3">
+            <span>{{ t('电话号码：') }}</span>
+            <a-typography-paragraph
+              v-model:content="userInfo.phone"
+              :editable="{
+                onEnd: (value: string) => handleEditEnd('phone', value),
+                onCancel: () => handleEditCancel('phone'),
+                tooltip: true,
+              }"
+              :maxlength="11"
+              class="flex-1"
+            >
+              <template #editableTooltip>
+                {{ t('修改电话号码') }}
+              </template>
+            </a-typography-paragraph>
+          </a-typography>
+        </div>
+
+        <Flex vertical gap="small" class="items-center">
+          <!-- 显示当前头像 -->
+          <Avatar :size="100" :src="userInfo.avatar">
+            <template v-if="!useAuthStore().user?.avatar" #icon>
+              <UserOutlined />
             </template>
-          </a-typography-paragraph>
-        </a-typography>
+          </Avatar>
 
-        <!-- 邮箱编辑 -->
-        <a-typography class="flex gap-3">
-          <span>{{ t('邮箱：') }} </span>
-          <a-typography-paragraph
-            v-model:content="userInfo.email"
-            :editable="{
-              onEnd: (value: string) => handleEditEnd('email', value),
-              onCancel: () => handleEditCancel('email'),
-              tooltip: true,
-            }"
-            :maxlength="50"
-            class="flex-1"
-          >
-            <template #editableTooltip>
-              {{ t('修改邮箱') }}
-            </template>
-          </a-typography-paragraph>
-        </a-typography>
+          <!-- 上传头像按钮 -->
+          <AButton class="flex justify-center items-center text-xs" @click="file?.click()">
+            <UploadOutlined />
+            {{ t('修改头像') }}
+          </AButton>
+        </Flex>
+      </flex>
 
-        <!-- 电话编辑 -->
-        <a-typography class="flex gap-3">
-          <span>{{ t('电话号码：') }}</span>
-          <a-typography-paragraph
-            v-model:content="userInfo.phone"
-            :editable="{
-              onEnd: (value: string) => handleEditEnd('phone', value),
-              onCancel: () => handleEditCancel('phone'),
-              tooltip: true,
-            }"
-            :maxlength="11"
-            class="flex-1"
-          >
-            <template #editableTooltip>
-              {{ t('修改电话号码') }}
-            </template>
-          </a-typography-paragraph>
-        </a-typography>
-      </div>
+      <input
+        ref="file"
+        type="file"
+        accept="image/*"
+        class="hidden"
+        @change="uploadImage"
+      >
 
-      <Flex vertical gap="small" class="items-center">
-        <!-- 显示当前头像 -->
-        <Avatar :size="100" :src="userInfo.avatar">
-          <template v-if="!useAuthStore().user?.avatar" #icon>
-            <UserOutlined />
-          </template>
-        </Avatar>
-
-        <!-- 上传头像按钮 -->
-        <AButton class="flex justify-center items-center text-xs" @click="file?.click()">
-          <UploadOutlined />
-          {{ t('修改头像') }}
-        </AButton>
-      </Flex>
-    </flex>
-
-    <input
-      ref="file"
-      type="file"
-      accept="image/*"
-      class="hidden"
-      @change="uploadImage"
-    >
-
-    <Modal
-      v-model:open="editAvatar"
-      :title="t('裁剪头像')"
-      centered
-      :ok-text="t('确定')"
-      :cancel-text="t('取消')"
-      @ok="cropImage"
-      @cencel="() => {
-        editAvatar = false
-        avatarUrl = null
-      }"
-    >
-      <Cropper
-        ref="cropper"
-        class="h-72 mb-5"
-        :src="avatarUrl"
-        :stencil-props="{
-          aspectRatio: 1,
+      <Modal
+        v-model:open="editAvatar"
+        :title="t('裁剪头像')"
+        centered
+        :ok-text="t('确定')"
+        :cancel-text="t('取消')"
+        @ok="cropImage"
+        @cancel="() => {
+          editAvatar = false
+          avatarUrl = null
         }"
-      />
-    </Modal>
-  </Card>
+      >
+        <Cropper
+          ref="cropper"
+          class="h-72 mb-5"
+          :src="avatarUrl"
+          :stencil-props="{
+            aspectRatio: 1,
+          }"
+        />
+      </Modal>
+    </Card>
+
+    <Card class="p-3 rounded-lg shadow-md" title="我的订单">
+      <div class="grid grid-cols-5 gap-4 text-center">
+        <div class="flex flex-col items-center">
+          <component :is="CreditCardOutlined" class="text-2xl" />
+          <span class="mt-2">待付款</span>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <component :is="InboxOutlined" class="text-2xl" />
+          <span class="mt-2">待收货</span>
+        </div>
+
+        <div class="flex flex-col items-center relative">
+          <Badge count="1">
+            <component :is="MessageOutlined" class="text-2xl" />
+          </Badge>
+          <span class="mt-2">待评价</span>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <component :is="SafetyOutlined" class="text-2xl" />
+          <span class="mt-2">退换/售后</span>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <component :is="RightOutlined" class="text-2xl text-gray-400" />
+          <span class="mt-2">全部订单</span>
+        </div>
+      </div>
+    </Card>
+  </Flex>
 </template>

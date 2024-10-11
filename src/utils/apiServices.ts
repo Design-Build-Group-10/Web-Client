@@ -76,3 +76,18 @@ export async function put<T = any>(
     },
   })
 }
+
+export async function patch<T = any>(
+  url: string,
+  data?: any,
+  auth?: boolean,
+  customHeaders?: Record<string, string>,
+) {
+  return instance.patch<T>(url, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...customHeaders,
+      ...(auth && { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }),
+    },
+  })
+}

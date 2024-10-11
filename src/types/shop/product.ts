@@ -4,8 +4,8 @@ export interface Product {
   description: string
   price: string
   stock: number
-  image: string
-  created_at: string
-  updated_at: string
+  image?: string
+  created_at?: string
+  updated_at?: string
   total_price?: string
 }
