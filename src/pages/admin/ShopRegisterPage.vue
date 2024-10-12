@@ -208,7 +208,7 @@ function handleFileChange(event: Event) {
         <p class="text-gray-600">
           {{ t('您的店铺已成功注册，我们会尽快联系您。') }}
         </p>
-        <AButton type="primary" class="mt-4" @click="() => (currentStep.value = 0)">
+        <AButton type="primary" class="mt-4" @click="() => (currentStep = 0)">
           {{ t('注册其他店铺') }}
         </AButton>
       </div>

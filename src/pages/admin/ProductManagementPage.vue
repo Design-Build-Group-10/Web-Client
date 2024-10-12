@@ -53,7 +53,7 @@ const columns: TableColumnsType = [
   {
     title: t('描述'),
     dataIndex: 'description',
-    width: '30%',
+    width: '25%',
   },
   {
     title: t('单价'),
@@ -70,7 +70,7 @@ const columns: TableColumnsType = [
     title: t('操作'),
     dataIndex: 'operation',
     fixed: 'right',
-    width: '10%',
+    width: '15%',
   },
 ]
 
