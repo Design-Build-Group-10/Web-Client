@@ -3,6 +3,7 @@ import MessagePushPage from '@/pages/admin/MessagePushPage.vue'
 import ProductManagementPage from '@/pages/admin/ProductManagementPage.vue'
 import RewardSystemPage from '@/pages/admin/RewardSystemPage.vue'
 import RobotViewer from '@/pages/admin/Robot/RobotViewer.vue'
+import ShopRegisterPage from '@/pages/admin/ShopRegisterPage.vue'
 import SystemLogsPage from '@/pages/admin/SystemLogsPage.vue'
 import UserManagementPage from '@/pages/admin/UserManagementPage.vue'
 import CartPage from '@/pages/CartPage.vue'
@@ -101,6 +102,11 @@ const router = createRouter({
         {
           path: '/product-management',
           component: ProductManagementPage,
+          meta: { requiresAuth: true, role: 'admin' },
+        },
+        {
+          path: '/shop-register',
+          component: ShopRegisterPage,
           meta: { requiresAuth: true, role: 'admin' },
         },
         {

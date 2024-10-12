@@ -14,6 +14,7 @@ import {
   RobotOutlined,
   SettingOutlined,
   ShopOutlined,
+  ShoppingOutlined,
   TagsOutlined,
   UserOutlined,
 } from '@ant-design/icons-vue'
@@ -76,6 +77,7 @@ const adminItems: ItemType[] = reactive([
     getItem(t('仪表盘'), '/dashboard', () => h(BarChartOutlined)),
     getItem(t('机器人管理'), '/robot-management', () => h(RobotOutlined)),
     getItem(t('商品管理'), '/product-management', () => h(TagsOutlined)),
+    getItem(t('商铺注册'), '/shop-register', () => h(ShoppingOutlined)),
   ]),
 
   getItem(t('个人信息'), '/profile', () => h(IdcardOutlined)),
