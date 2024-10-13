@@ -50,7 +50,7 @@ onMounted(async () => {
     const response = await getUserInfoApi()
     useAuthStore().setUser(response.data)
     const res = await getProductListApi()
-    productList.value = [...res.data.productList, ...res.data.productList]
+    productList.value = res.data.productList
   }
   catch (_error) {
     message.error(t('获取用户信息失败'))

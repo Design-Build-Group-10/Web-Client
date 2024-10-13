@@ -204,7 +204,7 @@ function navigateToLogin() {
 
 <template>
   <Layout class="flex items-center justify-center h-full">
-    <div class="max-w-full overflow-y-auto">
+    <div class="min-w-96 w-auto overflow-y-auto">
       <Card>
         <Steps :current="currentStep" size="small" class="mb-6">
           <Step :title="t('基本信息')" />

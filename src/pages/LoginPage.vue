@@ -200,7 +200,7 @@ function navigateToRegister() {
 
 <template>
   <Layout class="flex items-center justify-center h-full overflow-y-auto">
-    <div class="w-auto overflow-y-auto">
+    <div class="min-w-96 w-auto overflow-y-auto">
       <Card
         :tab-list="tabList"
         :active-tab-key="key"
