@@ -1,4 +1,3 @@
-// src/pages/LoginPage.vue
 <script lang="ts" setup>
 import { getUserInfoApi } from '@/api/user/profile'
 import { faceSignInApi, signInApi } from '@/api/user/signIn'
@@ -201,7 +200,7 @@ function navigateToRegister() {
 
 <template>
   <Layout class="flex items-center justify-center h-full overflow-y-auto">
-    <div class="max-w-96 w-full overflow-y-auto">
+    <div class="w-auto overflow-y-auto">
       <Card
         :tab-list="tabList"
         :active-tab-key="key"

@@ -2,17 +2,21 @@
 import type { Cart } from '@/types/shop/cart'
 import type { Product } from '@/types/shop/product'
 import { changeCartApi, getCartApi } from '@/api/shop/cart'
-import { Image, message, Table, type TableColumnsType } from 'ant-design-vue'
-import { onMounted, reactive, ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { Image, message, Modal, Table, type TableColumnsType } from 'ant-design-vue'
+import { computed, inject, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+
+type Key = string | number
 
 const cart = ref<Cart | null>(null)
 
 const productList = ref<Product[]>([])
 
-type Key = string | number
+const clearing = ref(false)
+const ordering = ref(false)
 
 const columns: TableColumnsType = [
   {
@@ -52,6 +56,12 @@ const state = reactive<{
 }>({
   selectedRowKeys: [],
   loading: false,
+})
+
+const totalPrice = computed(() => {
+  return productList.value
+    .filter(item => state.selectedRowKeys.includes(item.id))
+    .reduce((acc, cur) => acc + Number(cur.total_price), 0)
 })
 
 function onSelectChange(selectedRowKeys: Key[]) {
@@ -103,6 +113,36 @@ async function removeCartItem(product_id: string) {
   }
 }
 
+const selectedProducts = ref<Product[]>([])
+
+function onClearing() {
+  selectedProducts.value = productList.value.filter(item => state.selectedRowKeys.includes(item.id))
+  if (selectedProducts.value.length === 0) {
+    message.error(t('请选择商品'))
+    return
+  }
+  clearing.value = true
+}
+
+const openModal = inject('openModal') as (productId: string) => void
+
+async function submitOrder() {
+  if (ordering.value) {
+    return
+  }
+  ordering.value = true
+  try {
+    ordering.value = false
+    clearing.value = false
+  }
+  catch (_error) {
+    message.error(t('提交订单失败'))
+  }
+  finally {
+    ordering.value = false
+  }
+}
+
 onMounted(async () => {
   await getCart()
 })
@@ -120,20 +160,19 @@ onMounted(async () => {
       :row-selection="{ selectedRowKeys: state.selectedRowKeys, onChange: onSelectChange }"
       :columns="columns"
       :data-source="productList"
-      row-key="key"
+      :row-key="record => record.id"
     >
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'name'">
-          <a :href="`/product/${record.id}`" class="flex h-full items-center">
+          <AButton type="link" class="flex h-full items-center" @click="openModal(record.id)">
             <Image
               :preview="false"
               :src="record.image"
               :width="100"
               :height="100"
-              fallback="data:image/png;base64,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"
             />
             <span class="ml-2">{{ record.name }}</span>
-          </a>
+          </AButton>
         </template>
 
         <template v-if="column.dataIndex === 'operation'">
@@ -143,7 +182,9 @@ onMounted(async () => {
             :title="t('确认删除？')"
             @confirm="removeCartItem(record.id)"
           >
-            <a>{{ t('删除') }}</a>
+            <AButton type="link">
+              {{ t('删除') }}
+            </AButton>
           </a-popconfirm>
         </template>
 
@@ -160,14 +201,136 @@ onMounted(async () => {
     </Table>
 
     <!-- Footer actions -->
-    <div class="flex justify-between items-center py-2">
+    <div class="flex justify-end items-center py-2 gap-2">
       <div class="font-bold">
-        已选择 0 件商品，总价: ￥{{ cart?.total_price }}
+        {{ t('selectedItems', { count: state.selectedRowKeys.length, total: totalPrice }) }}
       </div>
-      <AButton type="primary">
-        去结算
+      <AButton :disabled="!state.selectedRowKeys.length" type="primary" @click="onClearing">
+        {{ t('去结算') }}
       </AButton>
     </div>
+
+    <Modal
+      v-model:open="clearing"
+      centered :title="t('填写并核对订单信息')"
+      :ok-text="t('提交订单')"
+      :cancel-text="t('返回修改购物车')"
+      destroy-on-close
+      :width="1000"
+      @ok="submitOrder"
+    >
+      <div class="w-full mx-auto max-h-[50rem] overflow-y-auto px-3">
+        <!-- 收货人信息 -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold">
+            {{ t('收货人信息') }}
+          </h2>
+          <div class="border rounded p-4 mt-2">
+            <span class="font-bold">{{ useAuthStore().user?.username }}</span> 北京
+            <p class="text-sm text-gray-500 mt-1">
+              {{ useAuthStore().user?.address }} {{ useAuthStore().user?.phone.substring(0, 3) }}****{{ useAuthStore().user?.phone.substring(7) }}
+            </p>
+            <AButton type="link" class="text-sm mt-2 p-0">
+              {{ t('修改地址') }}
+            </AButton>
+          </div>
+        </div>
+
+        <!-- 支付方式 -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold">
+            {{ t('支付方式') }}
+          </h2>
+          <div class="border rounded p-4 mt-2 flex items-center">
+            <label class="flex items-center">
+              <input type="radio" name="payment" checked class="mr-2">
+              <span>{{ t('在线支付') }}</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 配送方式 -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold">
+            {{ t('配送方式') }}
+          </h2>
+          <div class="border rounded p-4 mt-2">
+            <div class="flex justify-between items-center">
+              <span>{{ t('快递运输') }}</span>
+              <span>{{ t('预计 24小时内 发货') }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品信息 -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold">
+            {{ t('送货清单') }}
+          </h2>
+          <div v-for="product in selectedProducts" :key="product.id" class="border rounded p-4 mt-2">
+            <div class="w-full flex">
+              <div class="flex-1 flex justify-center items-center">
+                <Image
+                  :src="product.image"
+                  alt=""
+                  class="rounded-lg"
+                />
+              </div>
+              <!-- 商品信息部分 -->
+              <div class="w-full flex flex-col max-w-[40rem] ml-4">
+                <!-- 商品标题和描述 -->
+                <div class="flex justify-between">
+                  <div>
+                    <p class="font-semibold text-base">
+                      {{ product.name }}
+                    </p>
+                  </div>
+                  <!-- 价格 -->
+                  <div class="text-red-500 text-lg font-bold">
+                    ¥ {{ Number(product.price) * product.quantity! }}
+                  </div>
+                </div>
+
+                <!-- 购买数量和库存状态 -->
+                <div class="flex justify-between mt-2">
+                  <p class="text-gray-500 text-sm">
+                    x {{ product.quantity }}
+                  </p>
+                  <p class="text-sm">
+                    {{ t('有货') }}
+                  </p>
+                </div>
+
+                <!-- 支持退货提示 -->
+                <div class="text-sm text-green-600 mt-auto">
+                  {{ t('支持7天无理由退货') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 发票信息 -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold">
+            {{ t('发票信息') }}
+          </h2>
+          <div class="border rounded p-4">
+            <p class="text-sm text-gray-500 mb-0">
+              {{ t('不开具发票') }}
+            </p>
+          </div>
+        </div>
+
+        <!-- 订单结算 -->
+        <div class="border-t pt-4">
+          <div class="flex justify-between items-center">
+            <span class="text-lg font-semibold">{{ t('应付金额') }}</span>
+            <span class="text-red-600 text-2xl font-bold">¥ {{ totalPrice }}</span>
+          </div>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 

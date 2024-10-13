@@ -54,6 +54,7 @@ function getItem(
 // 用户端菜单
 const userItems: ItemType[] = reactive([
   getItem(t('首页'), '/home', () => h(HomeOutlined)),
+  getItem(t('购物车'), '/cart', () => h(ShopOutlined)),
   // getItem(t('我的奖励'), '/rewards', () => h(GiftOutlined)),
   // getItem(t('推荐商品'), '/productList', () => h(ShopOutlined)),
   // getItem(t('购物任务'), '/tasks', () => h(BarChartOutlined)),

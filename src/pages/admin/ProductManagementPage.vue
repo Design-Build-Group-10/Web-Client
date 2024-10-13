@@ -20,7 +20,7 @@ import {
   Table,
   type TableColumnsType,
 } from 'ant-design-vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -79,6 +79,8 @@ async function loadUserShops() {
   try {
     const response = await getUserShopListApi()
     shopList.value = response.data.userShops
+    selectedShopId.value = shopList.value[0].id
+    await loadShopProducts(selectedShopId.value as string)
   }
   catch (_error) {
     message.error(t('获取店铺列表失败'))
@@ -123,21 +125,21 @@ async function fetchImage(url: string) {
 async function editProduct(product: Product) {
   isAdding.value = false
   editingProduct.value = { ...product }
+  isEditing.value = true
   if (product.image) {
     const blob = await fetchImage(product.image)
     if (blob) {
       file_Blob.value = blob
     }
   }
-  isEditing.value = true
 }
 
 // 提交商品修改
 async function saveProduct() {
-  if (!editingProduct.value || !isAdding.value)
+  if (!isEditing.value && !isAdding.value)
     return
   try {
-    if (isAdding.value) {
+    if (isAdding.value && editingProduct.value) {
       await postProductApi(
         selectedShopId.value as string,
         editingProduct.value.name,
@@ -148,7 +150,7 @@ async function saveProduct() {
       )
       message.success(t('商品添加成功'))
     }
-    else if (isEditing.value) {
+    else if (isEditing.value && editingProduct.value) {
       // 更新商品信息
       const { id, ...updatedData } = editingProduct.value
       await updateProductInfoApi(id, updatedData.name, updatedData.description, updatedData.price, updatedData.stock, file_Blob.value)
@@ -205,6 +207,7 @@ function handleFileChange(event: Event) {
 }
 
 const isModalOpen = computed(() => isAdding.value || isEditing.value)
+const tableContainer = ref<HTMLDivElement | null>(null)
 
 // 当关闭模态框时，重置相关状态
 function closeModal() {
@@ -212,13 +215,37 @@ function closeModal() {
   isEditing.value = false
 }
 
+const tableHeight = ref(950) // 初始化表格高度
+
+// 动态调整表格高度的函数
+function adjustTableHeight() {
+  if (tableContainer.value) {
+    const containerHeight = tableContainer.value.offsetHeight
+    tableHeight.value = containerHeight - 230
+  }
+}
+
 onMounted(() => {
   loadUserShops()
+
+  // 监听父容器大小变化
+  const resizeObserver = new ResizeObserver(() => {
+    adjustTableHeight()
+  })
+
+  if (tableContainer.value) {
+    resizeObserver.observe(tableContainer.value)
+  }
+
+  // 在组件卸载之前停止监听
+  onBeforeUnmount(() => {
+    resizeObserver.disconnect()
+  })
 })
 </script>
 
 <template>
-  <div class="p-4">
+  <div ref="tableContainer" class="h-full p-4 flex flex-col">
     <h1 class="text-xl font-bold mb-4">
       {{ t('店铺商品管理') }}
     </h1>
@@ -228,7 +255,6 @@ onMounted(() => {
       <label class="mr-2 font-semibold">{{ t('选择店铺：') }}</label>
       <Select
         v-model:value="selectedShopId"
-        show-search
         :placeholder="t('选择店铺')"
         style="width: 300px"
         :options="shopList.map(shop => ({ label: shop.name, value: shop.id }))"
@@ -252,12 +278,11 @@ onMounted(() => {
       </AButton>
     </Flex>
 
-    <!-- 商品列表 -->
-    <Table :loading="loading" :scroll="{ x: 1000, y: 1000 }" :columns="columns" :data-source="productList" row-key="id" bordered>
+    <Table :loading="loading" :scroll="{ x: 1000, y: tableHeight }" :columns="columns" :data-source="productList" row-key="id" bordered>
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'image'">
           <Image
-            :preview="false"
+            :preview="true"
             :src="record.image"
             fallback="data:image/png;base64,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"
           />

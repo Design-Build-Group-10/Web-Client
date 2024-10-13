@@ -24,6 +24,8 @@ interface editableUserInfo {
   email: string
   phone: string
   avatar: string
+  address: string
+  payment_method: string
 }
 
 const originalUserInfo = ref<editableUserInfo>({
@@ -31,6 +33,8 @@ const originalUserInfo = ref<editableUserInfo>({
   email: '',
   phone: '',
   avatar: '',
+  address: '',
+  payment_method: '',
 })
 
 const userInfo = ref<editableUserInfo>({
@@ -38,6 +42,8 @@ const userInfo = ref<editableUserInfo>({
   email: '',
   phone: '',
   avatar: '',
+  address: '',
+  payment_method: '',
 })
 
 const avatarUrl = ref<string | null>(null)
@@ -48,18 +54,18 @@ const editAvatar = ref(false)
 async function handleEditEnd(field: keyof editableUserInfo, value: string) {
   try {
     userInfo.value[field] = value
-    await putUserInfoApi(userInfo.value.username, userInfo.value.email, userInfo.value.phone)
-    message.success(`${field} ${t('修改成功')}`)
+    await putUserInfoApi(userInfo.value.username, userInfo.value.email, userInfo.value.phone, userInfo.value.payment_method)
+    message.success(`${t(field)} ${t('修改成功')}`)
   }
   catch (_error) {
-    message.error(`${field} ${t('修改失败')}`)
+    message.error(`${t(field)} ${t('修改失败')}`)
   }
 }
 
 // 当用户按下 ESC 键取消编辑时的处理函数
 function handleEditCancel(field: keyof editableUserInfo) {
   originalUserInfo.value[field] = userInfo.value[field]
-  message.info(`${field} ${t('修改已取消')}`)
+  message.info(`${t(field)} ${t('修改已取消')}`)
 }
 
 // const loading = ref(false)
@@ -118,6 +124,17 @@ async function getUserInfo() {
   userInfo.value = { ...response.data }
 }
 
+async function handlePaymentMethodChange(e: Event) {
+  try {
+    await putUserInfoApi(userInfo.value.username, userInfo.value.email, userInfo.value.phone, userInfo.value.payment_method)
+    message.success(t('支付方式修改成功'))
+    userInfo.value.payment_method = (e.target as HTMLInputElement).value
+  }
+  catch (_error) {
+    message.error(t('支付方式修改失败'))
+  }
+}
+
 onMounted(async () => {
   try {
     await getUserInfo()
@@ -129,13 +146,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Flex vertical gap="middle" class="max-w-2xl mx-auto">
+  <Flex vertical gap="middle" class="max-w-3xl mx-auto">
     <Card class="p-3 rounded-lg shadow-md" :title="t('修改用户信息')">
       <Flex gap="middle" class="w-full justify-between">
         <div class="w-full">
           <!-- 用户名编辑 -->
           <a-typography class="flex gap-3">
-            <span>{{ t('用户名：') }}</span>
+            {{ t('用户名：') }}
             <a-typography-paragraph
               v-model:content="userInfo.username"
               :editable="{
@@ -154,7 +171,7 @@ onMounted(async () => {
 
           <!-- 邮箱编辑 -->
           <a-typography class="flex gap-3">
-            <span>{{ t('邮箱：') }} </span>
+            {{ t('邮箱：') }}
             <a-typography-paragraph
               v-model:content="userInfo.email"
               :editable="{
@@ -173,7 +190,7 @@ onMounted(async () => {
 
           <!-- 电话编辑 -->
           <a-typography class="flex gap-3">
-            <span>{{ t('电话号码：') }}</span>
+            {{ t('电话号码：') }}
             <a-typography-paragraph
               v-model:content="userInfo.phone"
               :editable="{
@@ -188,6 +205,47 @@ onMounted(async () => {
                 {{ t('修改电话号码') }}
               </template>
             </a-typography-paragraph>
+          </a-typography>
+
+          <!-- 地址编辑 -->
+          <a-typography class="flex gap-3">
+            {{ t('地址：') }}
+            <a-typography-paragraph
+              v-model:content="userInfo.address"
+              :editable="{
+                onEnd: (value: string) => handleEditEnd('address', value),
+                onCancel: () => handleEditCancel('address'),
+                tooltip: true,
+              }"
+              :maxlength="100"
+              class="flex-1"
+            >
+              <template #editableTooltip>
+                {{ t('修改地址') }}
+              </template>
+            </a-typography-paragraph>
+          </a-typography>
+
+          <!-- 支付方式编辑 -->
+          <a-typography class="flex gap-3">
+            {{ t('支付方式：') }}
+            <a-radio-group
+              :value="userInfo.payment_method"
+              @change="handlePaymentMethodChange"
+            >
+              <a-radio value="credit_card">
+                {{ t('信用卡') }}
+              </a-radio>
+              <a-radio value="paypal">
+                {{ t('PayPal') }}
+              </a-radio>
+              <a-radio value="wechat">
+                {{ t('微信支付') }}
+              </a-radio>
+              <a-radio value="alipay">
+                {{ t('支付宝') }}
+              </a-radio>
+            </a-radio-group>
           </a-typography>
         </div>
 
@@ -205,7 +263,7 @@ onMounted(async () => {
             {{ t('修改头像') }}
           </AButton>
         </Flex>
-      </flex>
+      </Flex>
 
       <input
         ref="file"

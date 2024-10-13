@@ -174,12 +174,15 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="p-4">
+    <h1 class="text-xl font-bold mb-4">
+      {{ t('机器人管理') }}
+    </h1>
     <!-- 表格 -->
     <Table :loading="gettingRobotList" :columns="columns" :data-source="robotList" :scroll="{ x: 500, y: 1000 }">
       <!-- 自定义操作列 -->
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'operation'">
-          <AButton @click="showModal(record as Robot)">
+          <AButton type="link" class="p-0" @click="showModal(record as Robot)">
             {{ t('查看详情') }}
           </AButton>
         </template>

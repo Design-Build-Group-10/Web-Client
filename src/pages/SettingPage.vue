@@ -1,12 +1,25 @@
 <script setup lang="ts">
+import type { SelectValue } from 'ant-design-vue/es/select'
 import { useConfigStore } from '@/stores/config'
-import { Button as AButton, Card, Input, Slider, Space, Switch } from 'ant-design-vue'
+import { Button as AButton, Card, Input, Select, Slider, Space, Switch } from 'ant-design-vue'
 import { onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const configStore = useConfigStore()
 
+const { t, locale } = useI18n()
 const defaultFontSize = 14
 const defaultColorPrimary = '#1677ff'
+
+// 初始化语言选项和当前语言
+const languageOptions = [
+  { label: '简体中文', value: 'zh-CN' },
+  { label: '繁體中文', value: 'zh-TW' },
+  { label: 'English', value: 'en' },
+  { label: 'Français', value: 'fr' },
+  { label: '日本語', value: 'ja' },
+]
+const currentLanguage = ref(locale.value)
 
 const fontSize = ref(defaultFontSize)
 const colorPrimary = ref(defaultColorPrimary)
@@ -43,6 +56,14 @@ function resetToDefault() {
   configStore.setFontSize(defaultFontSize)
   configStore.setPrimaryColor(defaultColorPrimary)
   configStore.setTheme('light')
+  locale.value = 'en'
+}
+
+function changeLanguage(value: SelectValue) {
+  locale.value = value as string
+  localStorage.setItem('locale', locale.value)
+  currentLanguage.value = value as string
+  window.location.reload()
 }
 
 onMounted(() => {
@@ -58,23 +79,23 @@ watch(() => configStore.colorPrimary, (newColor) => {
 <template>
   <div class="p-6">
     <h1 class="text-2xl mb-6">
-      个性化设置
+      {{ t('个性化设置') }}
     </h1>
 
-    <Card title="全局设置" class="mb-6" bordered>
+    <Card :title="t('全局设置')" class="mb-6" bordered>
       <Space direction="vertical" size="large" style="width: 100%">
         <div>
-          <label class="mr-2 font-semibold">切换主题模式</label>
+          <label class="mr-2 font-semibold">{{ t('切换主题模式') }}</label>
           <Switch
             :checked="configStore.isDarkMode"
-            checked-children="暗色"
-            un-checked-children="亮色"
+            :checked-children="t('暗色')"
+            :un-checked-children="t('亮色')"
             @change="(value) => toggleDarkMode(value as boolean)"
           />
         </div>
 
         <div>
-          <label class="mr-2 font-semibold">字体大小</label>
+          <label class="mr-2 font-semibold">{{ t('字体大小') }}</label>
           <Slider
             v-model:value="fontSize"
             :min="12"
@@ -86,7 +107,7 @@ watch(() => configStore.colorPrimary, (newColor) => {
         </div>
 
         <div>
-          <label class="mr-2 font-semibold">主题色</label>
+          <label class="mr-2 font-semibold">{{ t('主题色') }}</label>
           <Input
             :value="colorPrimary"
             type="color"
@@ -95,13 +116,24 @@ watch(() => configStore.colorPrimary, (newColor) => {
           />
           <span class="ml-2">{{ colorPrimary }}</span>
         </div>
+
+        <!-- 语言切换 -->
+        <div>
+          <label class="mr-2 font-semibold">{{ t('语言切换') }}</label>
+          <Select
+            :value="currentLanguage"
+            :options="languageOptions"
+            style="width: 200px"
+            @change="changeLanguage"
+          />
+        </div>
       </Space>
     </Card>
 
     <!-- 恢复默认设置按钮 -->
     <div class="text-right">
       <AButton type="primary" @click="resetToDefault">
-        恢复默认值
+        {{ t('恢复默认值') }}
       </AButton>
     </div>
   </div>

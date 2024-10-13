@@ -25,8 +25,8 @@ export async function putUserFaceApi(face: Blob) {
   return response.data
 }
 
-export async function putUserInfoApi(username: string, email: string, phone: string) {
-  const response = await put('/user/', { username, email, phone }, true)
+export async function putUserInfoApi(username: string, email: string, phone: string, payment_method: string) {
+  const response = await put('/user/', { username, email, phone, payment_method }, true)
   return response.data
 }
 

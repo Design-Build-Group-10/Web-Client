@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import type { Dayjs } from 'dayjs'
 import { registerShopApi } from '@/api/shop/shop'
+import { delay } from '@/utils/time'
 import { UploadOutlined } from '@ant-design/icons-vue'
-import { Button as AButton, Form, Image, Input, message, Step, Steps, Textarea, TimeRangePicker } from 'ant-design-vue'
+import { Button as AButton, Card, Form, Image, Input, message, Result, Step, Steps, Textarea, TimeRangePicker } from 'ant-design-vue'
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const currentStep = ref(0)
 const { t } = useI18n()
+
+const loading = ref(false)
 
 // 初始化表单数据
 const formState = reactive({
@@ -84,6 +87,7 @@ async function handleSubmit() {
     const [startTime, endTime] = formState.businessHours.map(time => time.format('HH:mm'))
 
     try {
+      loading.value = true
       await registerShopApi(
         formState.name,
         formState.description,
@@ -94,11 +98,15 @@ async function handleSubmit() {
         endTime,
         logoFile.value,
       )
+      await delay(1000)
       message.success(t('店铺注册成功！'))
       nextStep()
     }
     catch (_error) {
       message.error(t('注册失败，请稍后重试'))
+    }
+    finally {
+      loading.value = false
     }
   }
   else {
@@ -117,7 +125,7 @@ function handleFileChange(event: Event) {
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto p-6 rounded-lg shadow-lg min-h-0 overflow-y-auto">
+  <Card class="max-w-3xl mx-auto rounded-lg shadow-lg min-h-0 overflow-y-auto">
     <!-- 步骤条 -->
     <Steps :current="currentStep" class="mb-6">
       <Step :title="t('店铺信息')" />
@@ -192,7 +200,7 @@ function handleFileChange(event: Event) {
           <AButton @click="prevStep">
             {{ t('上一步') }}
           </AButton>
-          <AButton type="primary" @click="handleSubmit">
+          <AButton :loading="loading" type="primary" @click="handleSubmit">
             {{ t('提交') }}
           </AButton>
         </div>
@@ -201,18 +209,18 @@ function handleFileChange(event: Event) {
 
     <!-- 步骤4: 注册成功页面 -->
     <div v-if="currentStep === 3">
-      <div class="text-center">
-        <h2 class="text-xl font-bold mb-4">
-          {{ t('注册成功！') }}
-        </h2>
-        <p class="text-gray-600">
-          {{ t('您的店铺已成功注册，我们会尽快联系您。') }}
-        </p>
-        <AButton type="primary" class="mt-4" @click="() => (currentStep = 0)">
-          {{ t('注册其他店铺') }}
-        </AButton>
-      </div>
+      <Result
+        status="success"
+        :title="t('注册成功')"
+        :sub-title="t('您的店铺已成功注册，我们会尽快联系您。')"
+      >
+        <template #extra>
+          <AButton type="primary">
+            {{ t('注册其他店铺') }}
+          </AButton>
+        </template>
+      </Result>
     </div>
     <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="handleFileChange">
-  </div>
+  </Card>
 </template>
