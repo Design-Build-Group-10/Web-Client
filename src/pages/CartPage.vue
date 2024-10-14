@@ -227,8 +227,8 @@ onMounted(async () => {
           </h2>
           <div class="border rounded p-4 mt-2">
             <span class="font-bold">{{ useAuthStore().user?.username }}</span> 北京
-            <p class="text-sm text-gray-500 mt-1">
-              {{ useAuthStore().user?.address }} {{ useAuthStore().user?.phone.substring(0, 3) }}****{{ useAuthStore().user?.phone.substring(7) }}
+            <p v-if="useAuthStore().user?.shipping_address && useAuthStore().user?.phone" class="text-sm text-gray-500 mt-1">
+              {{ useAuthStore().user?.shipping_address }} {{ useAuthStore().user?.phone.substring(0, 3) }}****{{ useAuthStore().user?.phone.substring(7) }}
             </p>
             <AButton type="link" class="text-sm mt-2 p-0">
               {{ t('修改地址') }}
