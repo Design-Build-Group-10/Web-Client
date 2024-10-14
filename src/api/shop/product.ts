@@ -66,3 +66,8 @@ export async function postProductApi(shopId: string, name: string, description: 
   })
   return response.data
 }
+
+export async function getBrowseHistoryApi() {
+  const response = await get<Response<{ browse_history: string[] }>>('/user/browse-history/', undefined, true)
+  return response.data
+}

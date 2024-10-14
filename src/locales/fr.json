@@ -222,5 +222,18 @@
   "复制": "Copier",
   "支付方式修改成功": "Modification du moyen de paiement réussie",
   "商品添加成功": "Produit ajouté avec succès",
-  "搜索": "Rechercher"
+  "消息标题": "Titre du message",
+  "消息内容": "Contenu du message",
+  "接收时间": "Heure de réception",
+  "已读时间": "Heure de lecture",
+  "查看": "Voir",
+  "headerPoints": "Félicitations, vous avez gagné {points} points",
+  "搜索": "Rechercher",
+  "您还没有浏览过任何商品哦，快去看看吧！": "Vous n'avez pas encore consulté de produits, allez jeter un œil !",
+  "未读": "Non lu",
+  "标为已读": "Marquer comme lu",
+  "消息详情": "Détails du message",
+  "标题:": "Titre:",
+  "内容:": "Contenu:",
+  "接收时间:": "Heure de réception:"
 }

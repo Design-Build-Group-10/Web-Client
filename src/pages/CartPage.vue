@@ -22,7 +22,6 @@ const columns: TableColumnsType = [
   {
     title: t('商品'),
     dataIndex: 'name',
-    fixed: 'left',
     width: '30%',
   },
   {
@@ -45,7 +44,6 @@ const columns: TableColumnsType = [
   {
     title: t('操作'),
     dataIndex: 'operation',
-    fixed: 'right',
     width: '10%',
   },
 ]
@@ -230,9 +228,9 @@ onMounted(async () => {
             <p v-if="useAuthStore().user?.shipping_address && useAuthStore().user?.phone" class="text-sm text-gray-500 mt-1">
               {{ useAuthStore().user?.shipping_address }} {{ useAuthStore().user?.phone.substring(0, 3) }}****{{ useAuthStore().user?.phone.substring(7) }}
             </p>
-            <AButton type="link" class="text-sm mt-2 p-0">
-              {{ t('修改地址') }}
-            </AButton>
+            <!--            <AButton type="link" class="text-sm mt-2 p-0"> -->
+            <!--              {{ t('修改地址') }} -->
+            <!--            </AButton> -->
           </div>
         </div>
 

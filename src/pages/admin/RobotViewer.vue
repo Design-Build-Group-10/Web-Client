@@ -31,7 +31,6 @@ const columns: TableColumnsType = [
   {
     title: t('机器人ID'),
     dataIndex: 'id',
-    fixed: 'left',
     width: '10%',
   },
   {
@@ -55,7 +54,6 @@ const columns: TableColumnsType = [
   {
     title: t('操作'),
     dataIndex: 'operation',
-    fixed: 'right',
     width: '10%',
   },
 ]
@@ -101,6 +99,7 @@ function sendEvent() {
 }
 
 function timeoutEvent() {
+  isConnected.value = false
 }
 
 function errorEvent() {

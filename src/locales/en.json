@@ -222,5 +222,18 @@
   "复制": "Copy",
   "支付方式修改成功": "Payment method modified successfully",
   "商品添加成功": "Product added successfully",
-  "搜索": "Search"
+  "消息标题": "Message Title",
+  "消息内容": "Message Content",
+  "接收时间": "Receive Time",
+  "已读时间": "Read Time",
+  "查看": "View",
+  "headerPoints": "Congratulations, you have earned {points} points",
+  "搜索": "Search",
+  "您还没有浏览过任何商品哦，快去看看吧！": "You haven't browsed any products yet, go check them out!",
+  "未读": "Unread",
+  "标为已读": "Mark as Read",
+  "消息详情": "Message Details",
+  "标题:": "Title:",
+  "内容:": "Content:",
+  "接收时间:": "Receive Time:"
 }

@@ -42,7 +42,6 @@ const columns: TableColumnsType = [
   {
     title: t('商品图片'),
     dataIndex: 'image',
-    fixed: 'left',
     width: '10%',
   },
   {
@@ -69,7 +68,6 @@ const columns: TableColumnsType = [
   {
     title: t('操作'),
     dataIndex: 'operation',
-    fixed: 'right',
     width: '15%',
   },
 ]

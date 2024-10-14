@@ -3,15 +3,10 @@ import { getUserInfoApi, postUserInfoApi, putUserAvatarApi } from '@/api/user/pr
 import { useAuthStore } from '@/stores/auth'
 import { delay } from '@/utils/time'
 import {
-  CreditCardOutlined,
-  InboxOutlined,
-  MessageOutlined,
-  RightOutlined,
-  SafetyOutlined,
   UploadOutlined,
   UserOutlined,
 } from '@ant-design/icons-vue'
-import { Button as AButton, Avatar, Badge, Card, Flex, message, Modal } from 'ant-design-vue'
+import { Button as AButton, Avatar, Card, Flex, message, Modal } from 'ant-design-vue'
 import { onMounted, ref } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import { useI18n } from 'vue-i18n'
@@ -298,35 +293,35 @@ onMounted(async () => {
       </Modal>
     </Card>
 
-    <Card class="p-3 rounded-lg shadow-md" title="我的订单">
-      <div class="grid grid-cols-5 gap-4 text-center">
-        <div class="flex flex-col items-center">
-          <component :is="CreditCardOutlined" class="text-2xl" />
-          <span class="mt-2">待付款</span>
-        </div>
+    <!--    <Card class="p-3 rounded-lg shadow-md" title="我的订单"> -->
+    <!--      <div class="grid grid-cols-5 gap-4 text-center"> -->
+    <!--        <div class="flex flex-col items-center"> -->
+    <!--          <component :is="CreditCardOutlined" class="text-2xl" /> -->
+    <!--          <span class="mt-2">待付款</span> -->
+    <!--        </div> -->
 
-        <div class="flex flex-col items-center">
-          <component :is="InboxOutlined" class="text-2xl" />
-          <span class="mt-2">待收货</span>
-        </div>
+    <!--        <div class="flex flex-col items-center"> -->
+    <!--          <component :is="InboxOutlined" class="text-2xl" /> -->
+    <!--          <span class="mt-2">待收货</span> -->
+    <!--        </div> -->
 
-        <div class="flex flex-col items-center relative">
-          <Badge count="1">
-            <component :is="MessageOutlined" class="text-2xl" />
-          </Badge>
-          <span class="mt-2">待评价</span>
-        </div>
+    <!--        <div class="flex flex-col items-center relative"> -->
+    <!--          <Badge count="1"> -->
+    <!--            <component :is="MessageOutlined" class="text-2xl" /> -->
+    <!--          </Badge> -->
+    <!--          <span class="mt-2">待评价</span> -->
+    <!--        </div> -->
 
-        <div class="flex flex-col items-center">
-          <component :is="SafetyOutlined" class="text-2xl" />
-          <span class="mt-2">退换/售后</span>
-        </div>
+    <!--        <div class="flex flex-col items-center"> -->
+    <!--          <component :is="SafetyOutlined" class="text-2xl" /> -->
+    <!--          <span class="mt-2">退换/售后</span> -->
+    <!--        </div> -->
 
-        <div class="flex flex-col items-center">
-          <component :is="RightOutlined" class="text-2xl text-gray-400" />
-          <span class="mt-2">全部订单</span>
-        </div>
-      </div>
-    </Card>
+    <!--        <div class="flex flex-col items-center"> -->
+    <!--          <component :is="RightOutlined" class="text-2xl text-gray-400" /> -->
+    <!--          <span class="mt-2">全部订单</span> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--    </Card> -->
   </Flex>
 </template>

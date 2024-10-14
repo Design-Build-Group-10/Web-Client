@@ -15,4 +15,6 @@ export const useRobotStore = defineStore('robot', () => {
     image,
     reset,
   }
+}, {
+  persist: true,
 })

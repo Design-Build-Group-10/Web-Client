@@ -10,9 +10,12 @@ import { ConfigProvider, FloatButton, Image, Layout, message, Modal, Spin, theme
 import { Moon } from 'lucide-vue-next'
 import { computed, provide, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from './stores/auth'
 
 const { t, locale } = useI18n()
+
+const router = useRouter()
 
 function changeLanguage() {
   locale.value = locale.value === 'en' ? 'zh-CN' : 'en'
@@ -87,10 +90,13 @@ const showNavBar = computed(() => {
   >
     <Layout class="h-full overflow-hidden">
       <Header
-        v-if="showHeader" class="header flex items-center" :style="`border-color: ${useConfigStore().colorPrimary}; border-bottom-width: 0.3em;`"
+        v-if="showHeader" class="header flex items-center"
+        :style="`border-color: ${useConfigStore().colorPrimary}; border-bottom-width: 0.3em;`"
       >
-        <div class="logo" />
-        <!--        <span class="text-white font-bold text-2xl">FacePerks</span> -->
+        <div class="logo" @click="router.push('/home')" />
+        <span v-if="useAuthStore().user?.points" class="ml-auto mr-2 text-white font-bold text-lg">{{
+          t('headerPoints', { points: useAuthStore().user?.points })
+        }}</span>
       </Header>
       <Layout>
         <Sider v-if="showNavBar" v-model:collapsed="useConfigStore().collapsed" width="256" theme="light" collapsible>

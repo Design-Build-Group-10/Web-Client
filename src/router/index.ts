@@ -1,23 +1,16 @@
-import DataStatsPage from '@/pages/admin/DataStatsPage.vue'
-import MessagePushPage from '@/pages/admin/MessagePushPage.vue'
 import ProductManagementPage from '@/pages/admin/ProductManagementPage.vue'
-import RewardSystemPage from '@/pages/admin/RewardSystemPage.vue'
-import RobotViewer from '@/pages/admin/Robot/RobotViewer.vue'
+import RobotViewer from '@/pages/admin/RobotViewer.vue'
 import ShopRegisterPage from '@/pages/admin/ShopRegisterPage.vue'
-import SystemLogsPage from '@/pages/admin/SystemLogsPage.vue'
-import UserManagementPage from '@/pages/admin/UserManagementPage.vue'
 import CartPage from '@/pages/CartPage.vue'
-import DashBoard from '@/pages/DashBoard.vue'
+import HistoryPage from '@/pages/HistoryPage.vue'
 import HomePage from '@/pages/HomePage.vue'
 import LoginPage from '@/pages/LoginPage.vue'
+import MessagePage from '@/pages/MessagePage.vue'
 import ProfilePage from '@/pages/ProfilePage.vue'
 import RegisterPage from '@/pages/RegisterPage.vue'
 import SettingPage from '@/pages/SettingPage.vue'
-import HistoryPage from '@/pages/user/HistoryPage.vue'
-import MessagePage from '@/pages/user/MessagePage.vue'
 import ProductsPage from '@/pages/user/ProductsPage.vue'
 import RewardsPage from '@/pages/user/RewardsPage.vue'
-import TasksPage from '@/pages/user/TasksPage.vue'
 import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -59,6 +52,16 @@ const router = createRouter({
           meta: { requiresAuth: true },
         },
         {
+          path: '/history',
+          component: HistoryPage,
+          meta: { requiresAuth: true },
+        },
+        {
+          path: '/messages',
+          component: MessagePage,
+          meta: { requiresAuth: true },
+        },
+        {
           path: '/rewards',
           component: RewardsPage,
           meta: { requiresAuth: true, role: 'user' },
@@ -67,37 +70,6 @@ const router = createRouter({
           path: '/productList',
           component: ProductsPage,
           meta: { requiresAuth: true, role: 'user' },
-        },
-        {
-          path: '/tasks',
-          component: TasksPage,
-          meta: { requiresAuth: true, role: 'user' },
-        },
-        {
-          path: '/history',
-          component: HistoryPage,
-          meta: { requiresAuth: true, role: 'user' },
-        },
-        {
-          path: '/messages',
-          component: MessagePage,
-          meta: { requiresAuth: true, role: 'user' },
-        },
-
-        {
-          path: '/dashboard',
-          component: DashBoard,
-          meta: { requiresAuth: true, role: 'admin' },
-        },
-        {
-          path: '/user-management',
-          component: UserManagementPage,
-          meta: { requiresAuth: true, role: 'admin' },
-        },
-        {
-          path: '/reward-system',
-          component: RewardSystemPage,
-          meta: { requiresAuth: true, role: 'admin' },
         },
         {
           path: '/product-management',
@@ -110,23 +82,8 @@ const router = createRouter({
           meta: { requiresAuth: true, role: 'admin' },
         },
         {
-          path: '/data-stats',
-          component: DataStatsPage,
-          meta: { requiresAuth: true, role: 'admin' },
-        },
-        {
-          path: '/message-push',
-          component: MessagePushPage,
-          meta: { requiresAuth: true, role: 'admin' },
-        },
-        {
           path: '/robot-management',
           component: RobotViewer,
-          meta: { requiresAuth: true, role: 'admin' },
-        },
-        {
-          path: '/system-logs',
-          component: SystemLogsPage,
           meta: { requiresAuth: true, role: 'admin' },
         },
       ],
@@ -152,8 +109,8 @@ const router = createRouter({
 })
 
 // 修改路由守卫来判断用户的登录状态和角色
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore() // 获取 Pinia 中的认证状态
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore()
   const isAuthenticated = authStore.isAuthenticated
   const user = authStore.user
 

@@ -34,3 +34,8 @@ export async function postUserPasswordApi(password: string, newPassword: string)
   const response = await post('/user/password/', { password, newPassword }, true)
   return response.data
 }
+
+export async function postToken() {
+  const response = await post('/user/validate-token/', undefined, true)
+  return response.data
+}

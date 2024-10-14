@@ -5,7 +5,6 @@ import { useAuthStore } from '@/stores/auth'
 import { useConfigStore } from '@/stores/config'
 import {
   AppstoreOutlined,
-  BarChartOutlined,
   HistoryOutlined,
   HomeOutlined,
   IdcardOutlined,
@@ -55,9 +54,6 @@ function getItem(
 const userItems: ItemType[] = reactive([
   getItem(t('首页'), '/home', () => h(HomeOutlined)),
   getItem(t('购物车'), '/cart', () => h(ShopOutlined)),
-  // getItem(t('我的奖励'), '/rewards', () => h(GiftOutlined)),
-  // getItem(t('推荐商品'), '/productList', () => h(ShopOutlined)),
-  // getItem(t('购物任务'), '/tasks', () => h(BarChartOutlined)),
   getItem(t('浏览历史'), '/history', () => h(HistoryOutlined)),
   getItem(t('消息中心'), '/messages', () => h(MessageOutlined)),
   getItem(t('个人信息'), '/profile', () => h(IdcardOutlined)),
@@ -69,13 +65,9 @@ const userItems: ItemType[] = reactive([
 const adminItems: ItemType[] = reactive([
   getItem(t('首页'), '/home', () => h(HomeOutlined)),
   getItem(t('购物车'), '/cart', () => h(ShopOutlined)),
-  // getItem(t('用户管理'), '/user-management', () => h(UserOutlined)),
-  // getItem(t('奖励系统'), '/reward-system', () => h(GiftOutlined)),
-  // getItem(t('数据统计'), '/data-stats', () => h(BarChartOutlined)),
-  // getItem(t('消息推送'), '/message-push', () => h(MessageOutlined)),
-  // getItem(t('系统日志'), '/system-logs', () => h(HistoryOutlined)),
+  getItem(t('浏览历史'), '/history', () => h(HistoryOutlined)),
+  getItem(t('消息中心'), '/messages', () => h(MessageOutlined)),
   getItem(t('管理'), '/', () => h(AppstoreOutlined), [
-    getItem(t('仪表盘'), '/dashboard', () => h(BarChartOutlined)),
     getItem(t('机器人管理'), '/robot-management', () => h(RobotOutlined)),
     getItem(t('商品管理'), '/product-management', () => h(TagsOutlined)),
     getItem(t('商铺注册'), '/shop-register', () => h(ShoppingOutlined)),
@@ -154,7 +146,7 @@ onMounted(() => {
     </Flex>
     <!-- 底部用户信息 -->
     <Flex gap="middle" class="justify-center items-center transition-all">
-      <Avatar :size="useConfigStore().collapsed ? 32 : 64" :src="useAuthStore().user?.avatar">
+      <Avatar :size="useConfigStore().collapsed ? 32 : 64" :src="useAuthStore().user?.avatar" class="hover:scale-[102%] cursor-pointer transition-all" @click="router.push('/profile')">
         <template v-if="!useAuthStore().user?.avatar" #icon>
           <UserOutlined />
         </template>

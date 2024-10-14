@@ -27,21 +27,12 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
   }
 
-  /**
-   * 更新 accessToken 函数
-   * 通常在使用 refreshToken 刷新时调用
-   */
-  function updateAccessToken(newAccessToken: string) {
-    localStorage.setItem('accessToken', newAccessToken)
-  }
-
   return {
     setToken,
     setUser,
     user,
     isAuthenticated,
     logout,
-    updateAccessToken,
   }
 }, {
   persist: true, // 使 store 持久化，保持用户的认证状态
