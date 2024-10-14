@@ -66,7 +66,7 @@ onMounted(async () => {
         <InputSearch
           v-model:value="searchQuery"
           :placeholder="t('搜索商品')"
-          enter-button="搜索"
+          :enter-button="t('搜索')"
           allow-clear
           style="max-width: 400px"
           @search="handleSearch"
