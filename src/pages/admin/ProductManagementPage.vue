@@ -79,8 +79,10 @@ async function loadUserShops() {
   try {
     const response = await getUserShopListApi()
     shopList.value = response.data.userShops
-    selectedShopId.value = shopList.value[0].id
-    await loadShopProducts(selectedShopId.value as string)
+    if (shopList.value.length > 0) {
+      selectedShopId.value = shopList.value[0].id
+      await loadShopProducts(selectedShopId.value as string)
+    }
   }
   catch (_error) {
     message.error(t('获取店铺列表失败'))
@@ -96,7 +98,7 @@ async function loadShopProducts(shopId: string) {
   await delay(1000)
   try {
     const response = await getShopInfoApi(shopId)
-    const productIds = response.data.shopInfo.featured_products
+    const productIds = response.data.shopInfo.featured_products.reverse()
     for (const id of productIds) {
       const res = await getProductInfoApi(id)
       productList.value.push(res.data.productInfo)
@@ -136,8 +138,11 @@ async function editProduct(product: Product) {
 
 // 提交商品修改
 async function saveProduct() {
-  if (!isEditing.value && !isAdding.value)
+  loading.value = true
+  if (!isEditing.value && !isAdding.value) {
+    loading.value = false
     return
+  }
   try {
     if (isAdding.value && editingProduct.value) {
       await postProductApi(
@@ -161,8 +166,11 @@ async function saveProduct() {
   catch (_error) {
     message.error(t(isAdding.value ? '添加商品失败' : '商品信息修改失败'))
   }
-  isEditing.value = false
-  isAdding.value = false
+  finally {
+    loading.value = false
+    isEditing.value = false
+    isAdding.value = false
+  }
 }
 
 // 删除商品
@@ -307,24 +315,25 @@ onMounted(() => {
 
     <!-- 商品编辑模态框 -->
     <Modal
-      v-model:open="isModalOpen" :title="isAdding ? t('添加商品') : t('编辑商品')" :ok-text="t('确定')"
+      v-model:open="isModalOpen"
+      :confirm-loading="loading" :title="isAdding ? t('添加商品') : t('编辑商品')" :ok-text="t('确定')"
       :cancel-text="t('取消')" @ok="saveProduct"
       @cancel="closeModal"
     >
       <Form v-if="editingProduct" layout="vertical">
-        <Form.Item :label="t('商品名称')">
+        <Form.Item :label="t('商品名称')" required>
           <Input v-model:value="editingProduct.name" />
         </Form.Item>
-        <Form.Item :label="t('商品描述')">
+        <Form.Item :label="t('商品描述')" required>
           <Input v-model:value="editingProduct.description" />
         </Form.Item>
-        <Form.Item :label="t('单价')">
+        <Form.Item :label="t('单价')" required>
           <InputNumber v-model:value="editingProduct.price" prefix="¥" suffix="RMB" class="w-full" />
         </Form.Item>
-        <Form.Item :label="t('库存')">
+        <Form.Item :label="t('库存')" required>
           <InputNumber v-model:value="editingProduct.stock" class="w-full" />
         </Form.Item>
-        <Form.Item :label="t('商品图片')">
+        <Form.Item :label="t('商品图片')" required>
           <AButton class="flex justify-center items-center" @click="fileInput?.click()">
             <UploadOutlined />
             {{ t('上传图片') }}

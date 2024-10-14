@@ -90,7 +90,7 @@ const showNavBar = computed(() => {
         v-if="showHeader" class="header flex items-center" :style="`border-color: ${useConfigStore().colorPrimary}; border-bottom-width: 0.3em;`"
       >
         <div class="logo" />
-        <span class="text-white font-bold text-2xl">FacePerks</span>
+        <!--        <span class="text-white font-bold text-2xl">FacePerks</span> -->
       </Header>
       <Layout>
         <Sider v-if="showNavBar" v-model:collapsed="useConfigStore().collapsed" width="256" theme="light" collapsible>
@@ -186,9 +186,9 @@ const showNavBar = computed(() => {
   height: 3.4em;
 
   .logo {
-    height: 60%;
-    width: 5em;
-    background: url("@/assets/logo.svg") no-repeat center center / contain;
+    height: 90%;
+    width: 12em;
+    background: url("@/assets/logo1.svg") no-repeat center center / contain;
   }
 }
 </style>

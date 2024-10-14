@@ -5,7 +5,7 @@ export interface User {
   email: string
   phone: string
   face: string
-  address: string
+  shipping_address: string
   payment_method: string
   role: 'user' | 'admin'
 }

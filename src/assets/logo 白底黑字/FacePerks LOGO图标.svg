@@ -1,0 +1,34 @@
+
+<svg
+  version="1.0"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="2400"
+  height="1800"
+>
+  
+  <rect
+    x="0"
+    y="0"
+    width="100%"
+    height="100%"
+    fill="#ffffff"
+    fill-opacity="1"
+  ></rect>
+  <svg
+    version="1.0"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="2400"
+    height="1800"
+    viewBox="0 0 340.000000 250.000000"
+    preserveAspectRatio="xMidYMid meet"
+    color-interpolation-filters="sRGB"
+  >
+    <defs><linearGradient id="92" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#fa71cd"/> <stop offset="100%" stop-color="#9b59b6"/></linearGradient><linearGradient id="93" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f9d423"/> <stop offset="100%" stop-color="#f83600"/></linearGradient><linearGradient id="94" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0064d2"/> <stop offset="100%" stop-color="#1cb0f6"/></linearGradient><linearGradient id="95" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f00978"/> <stop offset="100%" stop-color="#3f51b1"/></linearGradient><linearGradient id="96" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7873f5"/> <stop offset="100%" stop-color="#ec77ab"/></linearGradient><linearGradient id="97" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f9d423"/> <stop offset="100%" stop-color="#e14fad"/></linearGradient><linearGradient id="98" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#009efd"/> <stop offset="100%" stop-color="#2af598"/></linearGradient><linearGradient id="99" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ffcc00"/> <stop offset="100%" stop-color="#00b140"/></linearGradient><linearGradient id="100" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#d51007"/> <stop offset="100%" stop-color="#ff8177"/></linearGradient><linearGradient id="102" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a2b6df"/> <stop offset="100%" stop-color="#0c3483"/></linearGradient><linearGradient id="103" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7ac5d8"/> <stop offset="100%" stop-color="#eea2a2"/></linearGradient><linearGradient id="104" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00ecbc"/> <stop offset="100%" stop-color="#007adf"/></linearGradient><linearGradient id="105" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#b88746"/> <stop offset="100%" stop-color="#fdf5a6"/></linearGradient></defs> <g class="imagesvg isNoFont" transform="translate(140,95.02727508544922)"><g><rect fill="#221e1f" fill-opacity="0" stroke-width="2" x="0" y="0" width="60" height="59.94544964082685" class="image-rect"/> <svg filter="url(#colors8715466938)" x="0" y="0" width="60" height="59.94544964082685" filtersec="colorsf4341013384" class="image-svg-svg primary" style="overflow: visible;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0.7999999999999998 0.7999999999999998 114.5 114.4"><path d="M105.5 65.8l-47.4 47.4-7.8-7.8L90 65.7 58.1 34l7.8-7.8 31.9 31.9 7.7 7.7zM58.1 49.5l16.3 16.3 7.8-7.8-16.4-16.2-7.7 7.7zM34 58.1l16.3 16.3 7.8-7.8-16.3-16.3-7.8 7.8zm32.6 0L50.3 74.3l7.8 7.8 16.3-16.3-7.8-7.7zM58.1 34L41.8 50.3l7.8 7.8 16.3-16.3-7.8-7.8zm24 24.1L50.3 89.9 10.6 50.3l-7.8 7.8 47.4 47.4 7.8-7.8 31.9-31.9-7.8-7.7zm31.2 0L65.8 10.6 58 18.4 26.2 50.3l7.8 7.8 31.9-31.9 39.7 39.7 7.7-7.8zM65.8 10.6L58 2.8 10.6 50.3l7.8 7.8L50.3 90l7.8-7.8-31.9-31.9 39.6-39.7z" fill="none" stroke="#202121" stroke-width="4" stroke-miterlimit="10"/></svg></svg> <defs><filter id="colors8715466938"><feColorMatrix type="matrix" values="0 0 0 0 0.1328125  0 0 0 0 0.1171875  0 0 0 0 0.12109375  0 0 0 1 0" class="icon-feColorMatrix "/></filter> <filter id="colorsf4341013384"><feColorMatrix type="matrix" values="0 0 0 0 0.99609375  0 0 0 0 0.99609375  0 0 0 0 0.99609375  0 0 0 1 0" class="icon-fecolormatrix"/></filter> <filter id="colorsb8225280505"><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" class="icon-fecolormatrix"/></filter></defs></g></g><defs v-gra="od"/>
+  </svg>
+</svg>
+
+

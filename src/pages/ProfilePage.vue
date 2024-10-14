@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { getUserInfoApi, putUserAvatarApi, putUserInfoApi } from '@/api/user/profile'
+import { getUserInfoApi, postUserInfoApi, putUserAvatarApi } from '@/api/user/profile'
 import { useAuthStore } from '@/stores/auth'
+import { delay } from '@/utils/time'
 import {
   CreditCardOutlined,
   InboxOutlined,
@@ -24,7 +25,7 @@ interface editableUserInfo {
   email: string
   phone: string
   avatar: string
-  address: string
+  shipping_address: string
   payment_method: string
 }
 
@@ -33,7 +34,7 @@ const originalUserInfo = ref<editableUserInfo>({
   email: '',
   phone: '',
   avatar: '',
-  address: '',
+  shipping_address: '',
   payment_method: '',
 })
 
@@ -42,7 +43,7 @@ const userInfo = ref<editableUserInfo>({
   email: '',
   phone: '',
   avatar: '',
-  address: '',
+  shipping_address: '',
   payment_method: '',
 })
 
@@ -54,7 +55,8 @@ const editAvatar = ref(false)
 async function handleEditEnd(field: keyof editableUserInfo, value: string) {
   try {
     userInfo.value[field] = value
-    await putUserInfoApi(userInfo.value.username, userInfo.value.email, userInfo.value.phone, userInfo.value.payment_method)
+    await delay(1)
+    await postUserInfoApi(userInfo.value.email, userInfo.value.phone, userInfo.value.shipping_address, userInfo.value.payment_method)
     message.success(`${t(field)} ${t('修改成功')}`)
   }
   catch (_error) {
@@ -126,7 +128,8 @@ async function getUserInfo() {
 
 async function handlePaymentMethodChange(e: Event) {
   try {
-    await putUserInfoApi(userInfo.value.username, userInfo.value.email, userInfo.value.phone, userInfo.value.payment_method)
+    userInfo.value.payment_method = (e.target as HTMLInputElement).value
+    await postUserInfoApi(userInfo.value.email, userInfo.value.phone, userInfo.value.shipping_address, userInfo.value.payment_method)
     message.success(t('支付方式修改成功'))
     userInfo.value.payment_method = (e.target as HTMLInputElement).value
   }
@@ -155,16 +158,14 @@ onMounted(async () => {
             {{ t('用户名：') }}
             <a-typography-paragraph
               v-model:content="userInfo.username"
-              :editable="{
-                onEnd: (value: string) => handleEditEnd('username', value),
-                onCancel: () => handleEditCancel('username'),
-                tooltip: true,
+              :copyable="{
+                onCopy: () => message.success(t('复制成功')),
               }"
-              :maxlength="20"
               class="flex-1"
             >
-              <template #editableTooltip>
-                {{ t('修改用户名') }}
+              <template #copyableTooltip="{ copied }">
+                <span v-if="!copied" key="copy-tooltip">{{ t('复制') }}</span>
+                <span v-else key="copied-tooltip">{{ t('复制成功') }}</span>
               </template>
             </a-typography-paragraph>
           </a-typography>
@@ -209,12 +210,12 @@ onMounted(async () => {
 
           <!-- 地址编辑 -->
           <a-typography class="flex gap-3">
-            {{ t('地址：') }}
+            {{ t('收货地址：') }}
             <a-typography-paragraph
-              v-model:content="userInfo.address"
+              v-model:content="userInfo.shipping_address"
               :editable="{
-                onEnd: (value: string) => handleEditEnd('address', value),
-                onCancel: () => handleEditCancel('address'),
+                onEnd: (value: string) => handleEditEnd('shipping_address', value),
+                onCancel: () => handleEditCancel('shipping_address'),
                 tooltip: true,
               }"
               :maxlength="100"
@@ -227,10 +228,11 @@ onMounted(async () => {
           </a-typography>
 
           <!-- 支付方式编辑 -->
-          <a-typography class="flex gap-3">
+          <a-typography class="flex gap-3 whitespace-nowrap">
             {{ t('支付方式：') }}
             <a-radio-group
               :value="userInfo.payment_method"
+              class="whitespace-normal"
               @change="handlePaymentMethodChange"
             >
               <a-radio value="credit_card">

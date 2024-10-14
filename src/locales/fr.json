@@ -176,7 +176,7 @@
   "店铺注册成功！": "Inscription du magasin réussie !",
   "注册失败，请稍后重试": "Échec de l'inscription, veuillez réessayer plus tard",
   "商品详情": "Détails du produit",
-  "地址：": "Adresse :",
+  "收货地址：": "Adresse de livraison :",
   "修改地址": "Modifier l'adresse",
   "支付方式：": "Moyen de paiement :",
   "信用卡": "Carte de crédit",
@@ -189,7 +189,7 @@
   "phone": "Numéro de téléphone",
   "email": "E-mail",
   "username": "Nom d'utilisateur",
-  "address": "Adresse",
+  "shipping_address": "Adresse de livraison",
   "基本信息": "Informations de base",
   "个性化设置": "Paramètres personnalisés",
   "全局设置": "Paramètres globaux",
@@ -217,5 +217,9 @@
   "不开具发票": "Pas de facture",
   "应付金额": "Montant à payer",
   "selectedItems": "Vous avez sélectionné {count} articles, Prix total: ￥{total}",
-  "去结算": "Passer à la caisse"
+  "去结算": "Passer à la caisse",
+  "复制成功": "Copie réussie",
+  "复制": "Copier",
+  "支付方式修改成功": "Modification du moyen de paiement réussie",
+  "商品添加成功": "Produit ajouté avec succès"
 }

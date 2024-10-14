@@ -176,7 +176,7 @@
   "店铺注册成功！": "Shop registration completed successfully!",
   "注册失败，请稍后重试": "Registration failed, please try again later",
   "商品详情": "Product Details",
-  "地址：": "Address:",
+  "收货地址：": "Shipping Address:",
   "修改地址": "Edit Address",
   "支付方式：": "Payment Method:",
   "信用卡": "Credit Card",
@@ -189,7 +189,7 @@
   "phone": "Phone Number",
   "email": "Email",
   "username": "Username",
-  "address": "Address",
+  "shipping_address": "Shipping Address",
   "基本信息": "Basic Information",
   "个性化设置": "Personalized Settings",
   "全局设置": "Global Settings",
@@ -217,5 +217,9 @@
   "不开具发票": "No Invoice",
   "应付金额": "Amount Payable",
   "selectedItems": "You have selected {count} items, Total Price: ¥{total}",
-  "去结算": "Checkout"
+  "去结算": "Checkout",
+  "复制成功": "Copy successful",
+  "复制": "Copy",
+  "支付方式修改成功": "Payment method modified successfully",
+  "商品添加成功": "Product added successfully"
 }
