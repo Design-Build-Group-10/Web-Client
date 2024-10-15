@@ -7,3 +7,8 @@ export interface Robot {
 }
 
 export type Function = (...args: any[]) => void
+
+export interface WebSocketMessage {
+  command: 'toggle_face_detection'
+  enabled: boolean
+}

@@ -1,4 +1,4 @@
-import type { Function } from '@/types/robot'
+import type { Function, WebSocketMessage } from '@/types/robot'
 import type { WebSocketService } from '@/utils/WebSocketService'
 import { useRobotStore } from '@/stores/robot'
 
@@ -62,7 +62,19 @@ export class RobotManager {
   }
 
   private async handleMessage(event: MessageEvent) {
-    this.robotStore.image = event.data
+    const type = typeof event.data
+    if (type === 'string') {
+      const data = JSON.parse(event.data)
+      if (data.status && data.status.includes('enabled')) {
+        this.robotStore.isFaceDetectionEnabled = true
+      }
+      else if (data.status && data.status.includes('disabled')) {
+        this.robotStore.isFaceDetectionEnabled = false
+      }
+    }
+    else if (type === 'object') {
+      this.robotStore.image = event.data
+    }
   }
 
   private handleError(_error: Event) {
@@ -77,6 +89,16 @@ export class RobotManager {
     this.closeEvent()
     this.stopHeartbeat()
     // this.attemptReconnect();
+  }
+
+  sendMessage(message: WebSocketMessage) {
+    if (this.webSocketService.isConnected()) {
+      this.webSocketService.send(JSON.stringify(message))
+      this.sendEvent()
+    }
+    else {
+      console.error('WebSocket is not connected')
+    }
   }
 
   closeWebsocket(code: number = 1000, reason: string = 'Normal closure') {

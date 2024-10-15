@@ -4,14 +4,11 @@ import { WebSocketService } from '@/utils/WebSocketService'
 
 let robotManager: RobotManager | null = null
 
-export function getUserChatManager(): RobotManager {
-  if (!robotManager) {
-    throw new Error('UserChatManager has not been initialized. Call createConnection first.')
-  }
+export function getRobotManager(): RobotManager | null {
   return robotManager
 }
 
-export function clearUserChatManager(): void {
+export function clearRobotManager(): void {
   robotManager?.closeWebsocket()
   robotManager = null
 }

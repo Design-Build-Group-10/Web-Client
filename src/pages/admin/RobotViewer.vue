@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Robot } from '@/types/robot'
+import type { Robot, WebSocketMessage } from '@/types/robot'
 import type { TableColumnsType } from 'ant-design-vue'
 import { getRobotInfoApi } from '@/api/robot/robot'
 import { useRobotStore } from '@/stores/robot'
-import { clearUserChatManager, createConnection } from '@/utils/Robot/Robot'
+import { clearRobotManager, createConnection, getRobotManager } from '@/utils/Robot/Robot'
 import { delay, formatTimestamp } from '@/utils/time'
 import { Button as AButton, Image, message, Modal, Table } from 'ant-design-vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
@@ -87,8 +87,9 @@ async function getRobotList() {
 }
 
 function openEvent() {
-  isConnected.value = true // 成功连接后设置连接状态
+  isConnected.value = true
   message.success(t('连接机器人成功'))
+  setFaceDetection(useRobotStore().isFaceDetectionEnabled)
 }
 
 function closeEvent() {
@@ -115,7 +116,7 @@ async function connectRobot(robot?: Robot) {
     connecting.value = true
     await delay(1000)
     try {
-      clearUserChatManager()
+      clearRobotManager()
       message.success(t('断开连接成功'))
       imageUrl.value = ''
     }
@@ -147,7 +148,7 @@ async function connectRobot(robot?: Robot) {
 function handleClose() {
   loading.value = true
   try {
-    clearUserChatManager()
+    clearRobotManager()
   }
   catch (_error) {
     message.error(t('断开连接失败'))
@@ -156,6 +157,24 @@ function handleClose() {
     isModalVisible.value = false
     loading.value = false
     imageUrl.value = ''
+  }
+}
+
+function setFaceDetection(checked: boolean) {
+  const robotManager = getRobotManager()
+  useRobotStore().isFaceDetectionEnabled = checked
+  if (!robotManager) {
+    return
+  }
+  const commandData: WebSocketMessage = {
+    command: 'toggle_face_detection',
+    enabled: useRobotStore().isFaceDetectionEnabled,
+  }
+  try {
+    robotManager?.sendMessage(commandData)
+  }
+  catch (_error) {
+    message.error(t('发送指令失败'))
   }
 }
 
@@ -207,6 +226,11 @@ onBeforeUnmount(() => {
           />
         </ASpin>
         <span v-if="isConnected && !imageUrl">{{ t('等待机器人连接中...') }}</span>
+        <!-- Face Detection Switch 开关 -->
+        <div class="mt-2 flex items-center">
+          <span class="mr-2">{{ t('人脸识别') }}</span>
+          <ASwitch :checked="useRobotStore().isFaceDetectionEnabled" @change="setFaceDetection" />
+        </div>
         <!-- 连接按钮 -->
         <AButton :loading="connecting" type="primary" class="mt-2" @click="connectRobot(robotStore.robot)">
           {{ isConnected ? t('断开连接') : t('连接机器人') }}
