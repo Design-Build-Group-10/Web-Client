@@ -11,7 +11,20 @@ To view the full project, please visit the following repositories:
 
 ## Table of Contents
 
-[toc]
+1. [Project Overview](#project-overview)
+2. [Project Setup](#project-setup)
+   - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
+   - [Type-Check, Compile and Minify for Production](#type-check-compile-and-minify-for-production)
+   - [Lint with ESLint](#lint-with-eslint)
+3. [Features](#features)
+   - [User Features](#user-features)
+   - [Merchant Features](#merchant-features)
+4. [Personalization](#personalization)
+5. [Message Center](#message-center)
+6. [Admin Functionalities](#admin-functionalities)
+7. [Face Recognition](#face-recognition)
+8. [Localization & Theme](#localization--theme)
+9. [IDE Setup](#ide-setup)
 
 ## Project Overview
 
